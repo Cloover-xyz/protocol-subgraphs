@@ -1,0 +1,30 @@
+# Subgraph related files
+data
+subgraph.yaml
+generated
+
+# Compiler files
+build
+cache/
+out/
+
+# Node_modules
+node_modules/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+broadcast/
+
+# Dotenv file
+.env
+
+# Env setup
+*.DS_Store
+.idea
+.vscode
+
+# Ignore yarn logs
+yarn-error.log
+yarn-debug.log*
