@@ -1,0 +1,5 @@
+{
+  "network": "sepolia",
+  "TokenWhitelist": "0x89cb912D94fB41b10477042F25d55E9b7E55ac25",
+  "StartBlock": 39150215
+}
