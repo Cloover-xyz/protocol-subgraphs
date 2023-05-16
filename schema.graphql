@@ -15,3 +15,21 @@ type Token @entity(immutable: true) {
   symbol: String!
   decimals: Int!
 }
+
+
+type NFTWhitelist @entity{
+  # contracts address
+  id: ID!
+  # amount of tokens whitelisted
+  collectionCount: BigInt!
+
+  # allow indexing by tokens
+  nfts: [NFT!]!
+}
+
+type NFT @entity(immutable: true) {
+  # collection address
+  id: ID!
+  # address of the collection creator
+  creator: String!
+}

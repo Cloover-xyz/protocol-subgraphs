@@ -6,7 +6,7 @@ import {
 import { getOrInitToken, getOrInitTokenWhitelist } from '../helpers/initializers';
 import { removeFromArray } from '../utils/array';
 
-export function handleAddedToWhitelist(event: AddedToWhitelist): void {
+export function handleAddedTokenToWhitelist(event: AddedToWhitelist): void {
   const tokenWhitelist = getOrInitTokenWhitelist(event.address);
   const token = getOrInitToken(event.params.addedToken);
 
@@ -17,7 +17,7 @@ export function handleAddedToWhitelist(event: AddedToWhitelist): void {
   tokenWhitelist.save();
 }
 
-export function handleRemovedFromWhitelist(event: RemovedFromWhitelist): void {
+export function handleRemovedTokenFromWhitelist(event: RemovedFromWhitelist): void {
   const tokenWhitelist = getOrInitTokenWhitelist(event.address);
   tokenWhitelist.tokenCount = tokenWhitelist.tokenCount.minus(BigInt.fromI32(1));
   tokenWhitelist.tokens = removeFromArray(tokenWhitelist.tokens, event.params.removedToken.toHex());

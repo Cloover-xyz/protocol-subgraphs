@@ -14,12 +14,20 @@ export function getHistoryEntityId(event: ethereum.Event): string {
   );
 }
 
-export function getTokenWhitelistId(deployerAddress: Address): string {
-  return deployerAddress.toHexString();
+export function getTokenWhitelistId(contractAddress: Address): string {
+  return contractAddress.toHexString();
+}
+
+export function getNFTWhitelistId(contractAddress: Address): string {
+  return contractAddress.toHexString();
 }
 
 export function getTokenId(tokenAddress: Address): string {
   return tokenAddress.toHexString();
+}
+
+export function getNFTId(nftCollectionAddress: Address): string {
+  return nftCollectionAddress.toHexString();
 }
 
 export function getUserId(userAddress: Address): string {

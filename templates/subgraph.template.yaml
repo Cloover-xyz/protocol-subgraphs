@@ -26,6 +26,31 @@ dataSources:
           file: ./abis/helpers/IERC20Detailed.json
       eventHandlers:
         - event: AddedToWhitelist(indexed address)
-          handler: handleAddedToWhitelist
+          handler: handleAddedTokenToWhitelist
         - event: RemovedFromWhitelist(indexed address)
-          handler: handleRemovedFromWhitelist
+          handler: handleRemovedTokenFromWhitelist
+  - kind: ethereum/contract
+    name: NFTWhitelist
+    network: {{network}}
+    source:
+      address: '{{NFTWhitelist}}'
+      startBlock:  {{StartBlock}}
+      abi: NFTWhitelist
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/nftWhitelist.ts
+      entities:
+        - NFTWhitelist
+        - NFT
+      abis:
+        - name: NFTWhitelist
+          file: ./abis/NFTWhitelist.json
+        - name: IERC721
+          file: ./abis/helpers/IERC721.json
+      eventHandlers:
+        - event: AddedToWhitelist(indexed address,indexed address)
+          handler: handleAddedNFTToWhitelist
+        - event: RemovedFromWhitelist(indexed address)
+          handler: handleRemovedNFTFromWhitelist
