@@ -1,0 +1,31 @@
+specVersion: 0.0.4
+description: Cloover Protocol subgraph
+repository: https://github.com/Cloover-xyz/protocol-subgraphs
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: TokenWhitelist
+    network: {{network}}
+    source:
+      address: '{{TokenWhitelist}}'
+      startBlock:  {{StartBlock}}
+      abi: TokenWhitelist
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/tokenWhitelist.ts
+      entities:
+        - TokenWhitelist
+        - Token
+      abis:
+        - name: TokenWhitelist
+          file: ./abis/TokenWhitelist.json
+        - name: IERC20Detailed
+          file: ./abis/helpers/IERC20Detailed.json
+      eventHandlers:
+        - event: AddedToWhitelist(indexed address)
+          handler: handleAddedToWhitelist
+        - event: RemovedFromWhitelist(indexed address)
+          handler: handleRemovedFromWhitelist

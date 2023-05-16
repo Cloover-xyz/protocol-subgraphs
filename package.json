@@ -4,6 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepare:subgraph": "mustache ./config/${NETWORK}.json ./templates/subgraph.template.yaml > subgraph.yaml",
+    "subgraph:codegen": "cross-env && pnpm prepare:subgraph && graph codegen",
+    "subgraph:build": "cross-env && pnpm prepare:subgraph && graph codegen && graph build",
+    "coverage": "graph test -- -c",
+    "test": "graph test",
     "postinstall": "husky install"
   },
   "keywords": [],
@@ -20,12 +25,13 @@
     "env-cmd": "^10.1.0",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
-    "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "mustache": "^4.2.0",
     "node-fetch": "^3.3.1",
     "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "assemblyscript": "^0.19.20",
+    "husky": "^8.0.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
@@ -33,6 +39,7 @@
   },
   "lint-staged": {
     "*.json": "pnpm prettier",
+    "*.ts": "pnpm prettier",
     "*.yml": "pnpm prettier"
   },
   "commitlint": {

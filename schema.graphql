@@ -1,0 +1,17 @@
+
+type TokenWhitelist @entity{
+  # contracts address
+  id: ID!
+  # amount of tokens whitelisted
+  tokenCount: BigInt!
+
+  # allow indexing by tokens
+  tokens: [Token!]!
+}
+
+type Token @entity(immutable: true) {
+  # token address
+  id: ID!
+  symbol: String!
+  decimals: Int!
+}
