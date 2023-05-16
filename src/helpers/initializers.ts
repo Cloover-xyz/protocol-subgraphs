@@ -1,9 +1,15 @@
 import { Address } from '@graphprotocol/graph-ts';
 
-import { Token, TokenWhitelist } from '../../generated/schema';
+import { NFT, NFTWhitelist, Token, TokenWhitelist } from '../../generated/schema';
 import { IERC20Detailed } from '../../generated/TokenWhitelist/IERC20Detailed';
+import { IERC721 } from '../../generated/NFTWhitelist/IERC721';
 
-import { getTokenId, getTokenWhitelistId } from '../utils/id-generation';
+import {
+  getNFTId,
+  getNFTWhitelistId,
+  getTokenId,
+  getTokenWhitelistId,
+} from '../utils/id-generation';
 import { zeroBI } from '../utils/converters';
 
 export function getOrInitTokenWhitelist(tokenWhitelistAddress: Address): TokenWhitelist {
@@ -17,6 +23,17 @@ export function getOrInitTokenWhitelist(tokenWhitelistAddress: Address): TokenWh
   }
   return tokenWhitelist;
 }
+export function getOrInitNFTWhitelist(nftWhitelistAddress: Address): NFTWhitelist {
+  let nftWhitelistId = getNFTWhitelistId(nftWhitelistAddress);
+  let nftWhitelist = NFTWhitelist.load(nftWhitelistId);
+  if (!nftWhitelist) {
+    nftWhitelist = new NFTWhitelist(nftWhitelistId);
+    nftWhitelist.collectionCount = zeroBI();
+    nftWhitelist.nfts = [];
+    nftWhitelist.save();
+  }
+  return nftWhitelist;
+}
 
 export function getOrInitToken(tokenAddress: Address): Token {
   let tokenId = getTokenId(tokenAddress);
@@ -29,4 +46,15 @@ export function getOrInitToken(tokenAddress: Address): Token {
     token.save();
   }
   return token;
+}
+
+export function getOrInitNFT(nftCollectionAddress: Address): NFT {
+  let nftId = getNFTId(nftCollectionAddress);
+  let nft = NFT.load(nftId);
+  if (!nft) {
+    nft = new NFT(nftId);
+    nft.creator = '';
+    nft.save();
+  }
+  return nft;
 }
