@@ -54,3 +54,27 @@ dataSources:
           handler: handleAddedNFTToWhitelist
         - event: RemovedFromWhitelist(indexed address)
           handler: handleRemovedNFTFromWhitelist
+  - kind: ethereum/contract
+    name: RaffleFactory
+    network: {{network}}
+    source:
+      address: '{{RaffleFactory}}'
+      startBlock:  {{StartBlock}}
+      abi: RaffleFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/raffleFactory.ts
+      entities:
+        - RaffleFactory
+        - Raffle
+        - User
+      abis:
+        - name: RaffleFactory
+          file: ./abis/RaffleFactory.json
+      eventHandlers:
+        - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
+          handler: handleNewRaffle
+        - event: RemovedFromRegister(indexed address)
+          handler: handleRemovedFromRegister
