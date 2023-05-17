@@ -94,6 +94,7 @@ export function initRaffle(
     throw new Error('raffle ' + raffleAddress.toHexString() + ' already exist');
   }
   raffle = new Raffle(raffleId);
+  raffle.status = 'DEFAULT';
   raffle.implementationManager = params.implementationManager.toHexString();
   raffle.raffleFactory = factoryAddress.toHexString();
   raffle.nftId = params.nftId;

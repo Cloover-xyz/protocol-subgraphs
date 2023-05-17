@@ -78,8 +78,6 @@ dataSources:
       eventHandlers:
         - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
           handler: handleNewRaffle
-        - event: RemovedFromRegister(indexed address)
-          handler: handleRemovedFromRegister
 templates:
   - kind: ethereum/contract
     name: Raffle

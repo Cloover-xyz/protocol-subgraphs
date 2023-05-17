@@ -67,13 +67,9 @@ describe('TokenWhitelist - Add new token to whitelist', () => {
       ethereum.Value.fromString(RAFFLE_1_ADDRESS)
     );
 
-    assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'creator', CREATOR_ADDRESS);
-    assert.fieldEquals(
-      RAFFLE_ENTITY_TYPE,
-      RAFFLE_1_ADDRESS,
-      'implementationManager',
-      raffleConfig.implementationManager
-    );
+    assert.entityCount(RAFFLE_ENTITY_TYPE, 1);
+    assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'id', RAFFLE_1_ADDRESS);
+    assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
   });
 
   test('should handle multi new raffle', () => {
