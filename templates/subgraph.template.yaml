@@ -73,8 +73,30 @@ dataSources:
       abis:
         - name: RaffleFactory
           file: ./abis/RaffleFactory.json
+        - name: RaffleContract
+          file: ./abis/RaffleContract.json
       eventHandlers:
         - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
           handler: handleNewRaffle
         - event: RemovedFromRegister(indexed address)
           handler: handleRemovedFromRegister
+templates:
+  - kind: ethereum/contract
+    name: Raffle
+    network: {{network}}
+    source:
+      abi: RaffleEvents
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/raffle.ts
+      entities:
+        - Raffle
+        - User
+      abis:
+        - name: RaffleEvents
+          file: ./abis/RaffleEvents.json
+      eventHandlers:
+        - event: RaffleCancelled()
+          handler: handleRaffleCancelled

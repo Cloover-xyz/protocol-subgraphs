@@ -1,16 +1,28 @@
-import { Address } from '@graphprotocol/graph-ts';
-
-import { NFT, NFTWhitelist, Token, TokenWhitelist } from '../../generated/schema';
-import { IERC20Detailed } from '../../generated/TokenWhitelist/IERC20Detailed';
-import { IERC721 } from '../../generated/NFTWhitelist/IERC721';
+import { Address, log } from '@graphprotocol/graph-ts';
 
 import {
+  NFT,
+  NFTWhitelist,
+  Token,
+  TokenWhitelist,
+  RaffleFactory,
+  Raffle,
+  User,
+} from '../../generated/schema';
+import { IERC20Detailed } from '../../generated/TokenWhitelist/IERC20Detailed';
+import { RaffleContract } from '../../generated/RaffleFactory/RaffleContract';
+
+import {
+  getFactoryId,
   getNFTId,
   getNFTWhitelistId,
+  getRaffleId,
   getTokenId,
   getTokenWhitelistId,
+  getUserId,
 } from '../utils/id-generation';
 import { zeroBI } from '../utils/converters';
+import { NewRaffleRaffleParamsStruct } from '../../generated/RaffleFactory/RaffleFactory';
 
 export function getOrInitTokenWhitelist(tokenWhitelistAddress: Address): TokenWhitelist {
   let tokenWhitelistId = getTokenWhitelistId(tokenWhitelistAddress);
@@ -57,4 +69,65 @@ export function getOrInitNFT(nftCollectionAddress: Address): NFT {
     nft.save();
   }
   return nft;
+}
+
+export function getOrInitRaffleFactory(factoryAddress: Address): RaffleFactory {
+  let factoryId = getFactoryId(factoryAddress);
+  let factory = RaffleFactory.load(factoryId);
+  if (!factory) {
+    factory = new RaffleFactory(factoryId);
+    factory.raffleCount = zeroBI();
+    factory.save();
+  }
+  return factory;
+}
+
+export function initRaffle(
+  factoryAddress: Address,
+  raffleAddress: Address,
+  params: NewRaffleRaffleParamsStruct
+): void {
+  let raffleId = getRaffleId(raffleAddress);
+  let raffle = Raffle.load(raffleId);
+  if (raffle) {
+    log.error('raffle {} already exist', [raffleAddress.toHexString()]);
+    throw new Error('raffle ' + raffleAddress.toHexString() + ' already exist');
+  }
+  raffle = new Raffle(raffleId);
+  raffle.implementationManager = params.implementationManager.toHexString();
+  raffle.raffleFactory = factoryAddress.toHexString();
+  raffle.nftId = params.nftId;
+  raffle.maxTotalSupply = params.maxTotalSupply;
+  raffle.ticketSalesDuration = params.ticketSalesDuration;
+  raffle.maxTicketAllowedToPurchase = params.maxTicketAllowedToPurchase;
+  raffle.ticketSalesInsurance = params.ticketSalesInsurance;
+  raffle.ticketPrice = params.ticketPrice;
+  raffle.protocolFeeRate = params.protocolFeeRate;
+  raffle.insuranceRate = params.insuranceRate;
+  raffle.royaltiesRate = params.royaltiesRate;
+  raffle.isETH = params.isEthRaffle;
+
+  let raffleContract = RaffleContract.bind(raffleAddress);
+  raffle.endTicketSales = raffleContract.endTicketSales();
+
+  let user = getOrInitUser(params.creator);
+  raffle.creator = user.id;
+
+  let token = getOrInitToken(params.purchaseCurrency);
+  raffle.token = token.id;
+
+  let nft = getOrInitNFT(params.nftContract);
+  raffle.nft = nft.id;
+
+  raffle.save();
+}
+
+export function getOrInitUser(userAddress: Address): User {
+  let userId = getUserId(userAddress);
+  let user = User.load(userId);
+  if (!user) {
+    user = new User(userId);
+    user.save();
+  }
+  return user;
 }
