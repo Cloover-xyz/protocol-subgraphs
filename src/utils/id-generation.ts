@@ -14,6 +14,14 @@ export function getHistoryEntityId(event: ethereum.Event): string {
   );
 }
 
+export function getFactoryId(factoryAddress: Address): string {
+  return factoryAddress.toHexString();
+}
+
+export function getRaffleId(raffleAddress: Address): string {
+  return raffleAddress.toHexString();
+}
+
 export function getTokenWhitelistId(contractAddress: Address): string {
   return contractAddress.toHexString();
 }
