@@ -1,0 +1,117 @@
+specVersion: 0.0.4
+description: Cloover Protocol subgraph
+repository: https://github.com/Cloover-xyz/protocol-subgraphs
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: TokenWhitelist
+    network: {{network}}
+    source:
+      address: '{{TokenWhitelist}}'
+      startBlock:  {{StartBlock}}
+      abi: TokenWhitelist
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/tokenWhitelist.ts
+      entities:
+        - TokenWhitelist
+        - Token
+      abis:
+        - name: TokenWhitelist
+          file: ./abis/TokenWhitelist.json
+        - name: IERC20Detailed
+          file: ./abis/helpers/IERC20Detailed.json
+      eventHandlers:
+        - event: AddedToWhitelist(indexed address)
+          handler: handleAddedTokenToWhitelist
+        - event: RemovedFromWhitelist(indexed address)
+          handler: handleRemovedTokenFromWhitelist
+  - kind: ethereum/contract
+    name: NFTWhitelist
+    network: {{network}}
+    source:
+      address: '{{NFTWhitelist}}'
+      startBlock:  {{StartBlock}}
+      abi: NFTWhitelist
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/nftWhitelist.ts
+      entities:
+        - NFTWhitelist
+        - NFT
+      abis:
+        - name: NFTWhitelist
+          file: ./abis/NFTWhitelist.json
+        - name: IERC721
+          file: ./abis/helpers/IERC721.json
+      eventHandlers:
+        - event: AddedToWhitelist(indexed address,indexed address)
+          handler: handleAddedNFTToWhitelist
+        - event: RemovedFromWhitelist(indexed address)
+          handler: handleRemovedNFTFromWhitelist
+  - kind: ethereum/contract
+    name: RaffleFactory
+    network: {{network}}
+    source:
+      address: '{{RaffleFactory}}'
+      startBlock:  {{StartBlock}}
+      abi: RaffleFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/raffleFactory.ts
+      entities:
+        - RaffleFactory
+        - Raffle
+        - User
+      abis:
+        - name: RaffleFactory
+          file: ./abis/RaffleFactory.json
+        - name: RaffleContract
+          file: ./abis/RaffleContract.json
+        - name: RaffleEvents
+          file: ./abis/RaffleEvents.json
+      eventHandlers:
+        - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
+          handler: handleNewRaffle
+templates:
+  - kind: ethereum/contract
+    name: Raffle
+    network: {{network}}
+    source:
+      abi: RaffleEvents
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mapping/raffle.ts
+      entities:
+        - Raffle
+        - User
+      abis:
+        - name: RaffleEvents
+          file: ./abis/RaffleEvents.json
+      eventHandlers:
+        - event: TicketsPurchased(indexed address,uint16,uint16)
+          handler: handleTicketsPurchased
+        - event: WinningTicketDrawn(uint16)
+          handler: handleWinningTicketDrawn
+        - event: WinnerClaimed(address)
+          handler: handleWinnerClaimed
+        - event: CreatorClaimed(uint256,uint256,uint256)
+          handler: handleCreatorClaimed
+        - event: CreatorClaimedInsurance()
+          handler: handleCreatorClaimedInsurance
+        - event: UserClaimedRefund(indexed address,uint256)
+          handler: handleUserClaimedRefund
+        - event: RaffleCancelled()
+          handler: handleRaffleCancelled
+        - event: RaffleStatus(indexed uint8)
+          handler: handleRaffleStatus
+        
