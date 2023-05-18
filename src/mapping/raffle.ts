@@ -2,6 +2,7 @@ import { Address, log } from '@graphprotocol/graph-ts';
 import {
     CreatorClaimed,
     CreatorClaimedInsurance,
+    RaffleCancelled,
     TicketsPurchased,
     UserClaimedRefund,
     WinnerClaimed,
@@ -87,5 +88,11 @@ export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): v
     if (raffle.amountOfParticipantsRefunded == raffle.participants.length) {
         raffle.status = 'FINISHED';
     }
+    raffle.save();
+}
+
+export function handleRaffleCancelled(event: RaffleCancelled): void {
+    let raffle = getRaffle(event.address);
+    raffle.status = 'CANCELLED';
     raffle.save();
 }

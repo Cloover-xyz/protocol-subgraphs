@@ -7,6 +7,7 @@ import { newMockEvent } from 'matchstick-as';
 import {
     CreatorClaimed,
     CreatorClaimedInsurance,
+    RaffleCancelled,
     TicketsPurchased,
     UserClaimedRefund,
     WinnerClaimed,
@@ -135,6 +136,12 @@ export function createUserClaimedRefundEvent(
 
 export function createCreatorClaimedInsuranceEvent(raffleAddress: string): CreatorClaimedInsurance {
     const newEvent = changetype<CreatorClaimedInsurance>(newMockEvent());
+    newEvent.address = Address.fromString(raffleAddress);
+    return newEvent;
+}
+
+export function createRaffleCancelledEvent(raffleAddress: string): RaffleCancelled {
+    const newEvent = changetype<RaffleCancelled>(newMockEvent());
     newEvent.address = Address.fromString(raffleAddress);
     return newEvent;
 }
