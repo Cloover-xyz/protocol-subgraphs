@@ -6,6 +6,7 @@ import { newMockEvent } from 'matchstick-as';
 
 import {
     TicketsPurchased,
+    WinnerClaimed,
     WinningTicketDrawn,
 } from '../../../generated/RaffleFactory/RaffleEvents';
 
@@ -23,7 +24,7 @@ export function createTicketsPurchasedEvent(
 ): TicketsPurchased {
     const newEvent = changetype<TicketsPurchased>(newMockEvent());
     newEvent.parameters = new Array();
-    let userParam = new ethereum.EventParam(
+    const userParam = new ethereum.EventParam(
         'user',
         ethereum.Value.fromAddress(Address.fromString(participantAddress))
     );
@@ -55,6 +56,21 @@ export function createWinningTicketDrawnEvent(
     );
     newEvent.parameters.push(winningTicketParam);
 
+    newEvent.address = Address.fromString(raffleAddress);
+    return newEvent;
+}
+
+export function createWinnerClaimedEvent(
+    raffleAddress: string,
+    winnerAddress: string
+): WinnerClaimed {
+    const newEvent = changetype<WinnerClaimed>(newMockEvent());
+    newEvent.parameters = new Array();
+    const winnerParam = new ethereum.EventParam(
+        'winner',
+        ethereum.Value.fromAddress(Address.fromString(winnerAddress))
+    );
+    newEvent.parameters.push(winnerParam);
     newEvent.address = Address.fromString(raffleAddress);
     return newEvent;
 }

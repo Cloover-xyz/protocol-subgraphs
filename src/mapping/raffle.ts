@@ -1,5 +1,9 @@
 import { Address, log } from '@graphprotocol/graph-ts';
-import { TicketsPurchased, WinningTicketDrawn } from '../../generated/RaffleFactory/RaffleEvents';
+import {
+    TicketsPurchased,
+    WinnerClaimed,
+    WinningTicketDrawn,
+} from '../../generated/RaffleFactory/RaffleEvents';
 import { getOrInitParticipant, getRaffle } from '../helpers/initializers';
 
 export function handleTicketsPurchased(event: TicketsPurchased): void {
@@ -25,7 +29,6 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
     raffle.status = 'DRAWN';
     const participants = raffle.participants;
     for (let i = 0; i < participants.length; i++) {
-        log.info('participant {}', [participants[i]]);
         const participantAddress = Address.fromString(participants[i].split('-')[1]);
         const participant = getOrInitParticipant(event.address, participantAddress);
         let index = participant.numbers.indexOf(event.params.winningTicket);
@@ -34,5 +37,11 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
             break;
         }
     }
+    raffle.save();
+}
+
+export function handleWinnerClaimed(event: WinnerClaimed): void {
+    let raffle = getRaffle(event.address);
+    raffle.winnerClaimed = true;
     raffle.save();
 }

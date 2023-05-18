@@ -28,12 +28,12 @@ import {
 } from '../utils/events/nftWhitelist';
 import {
     createTicketsPurchasedEvent,
-    createWinningTicketDrawnEvent,
+    createWinnerClaimedEvent,
     handeTicketsPurchases,
 } from '../utils/events/raffle';
-import { handleWinningTicketDrawn } from '../../src/mapping/raffle';
+import { handleWinnerClaimed } from '../../src/mapping/raffle';
 
-describe('Raffle - WinningTicketDrawn', () => {
+describe('Raffle - WinnerClaimed', () => {
     beforeEach(() => {
         const addUSDCEvent = createAddedTokenToWhitelistEvent(USDC);
         handleAddedTokenToWhitelists([addUSDCEvent]);
@@ -68,24 +68,10 @@ describe('Raffle - WinningTicketDrawn', () => {
         clearStore();
     });
 
-    test('should handle winning ticket drawn and find the winner as first participant', () => {
-        let newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 10);
-        handleWinningTicketDrawn(newWinningTicket);
+    test('should handle winner claimed event', () => {
+        let newWinnerClaimed = createWinnerClaimedEvent(RAFFLE_1_ADDRESS, PARTICIPANT_1_ADDRESS);
+        handleWinnerClaimed(newWinnerClaimed);
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '10');
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
-
-        newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 1);
-        handleWinningTicketDrawn(newWinningTicket);
-
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '1');
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
-    });
-    test('should handle winning ticket drawn and find the winnner as second participant', () => {
-        const newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 11);
-        handleWinningTicketDrawn(newWinningTicket);
-
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '11');
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_2_ADDRESS);
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winnerClaimed', 'true');
     });
 });
