@@ -1,10 +1,11 @@
-import { Address, ethereum } from '@graphprotocol/graph-ts';
+import { Address, ethereum, BigInt } from '@graphprotocol/graph-ts';
 
 import { handleTicketsPurchased } from '../../../src/mapping/raffle';
 
 import { newMockEvent } from 'matchstick-as';
 
 import {
+    CreatorClaimed,
     TicketsPurchased,
     WinnerClaimed,
     WinningTicketDrawn,
@@ -71,6 +72,33 @@ export function createWinnerClaimedEvent(
         ethereum.Value.fromAddress(Address.fromString(winnerAddress))
     );
     newEvent.parameters.push(winnerParam);
+    newEvent.address = Address.fromString(raffleAddress);
+    return newEvent;
+}
+
+export function createCreatorlaimedEvent(
+    raffleAddress: string,
+    creatorAmountReceived: BigInt,
+    protocolFeeAmount: BigInt,
+    royaltiesAmount: BigInt
+): CreatorClaimed {
+    const newEvent = changetype<CreatorClaimed>(newMockEvent());
+    newEvent.parameters = new Array();
+    const creatorAmountReceivedParam = new ethereum.EventParam(
+        'creatorAmountReceived',
+        ethereum.Value.fromUnsignedBigInt(creatorAmountReceived)
+    );
+    const protocolFeeAmountParam = new ethereum.EventParam(
+        'protocolFeeAmount',
+        ethereum.Value.fromUnsignedBigInt(protocolFeeAmount)
+    );
+    const royaltiesAmountParam = new ethereum.EventParam(
+        'royaltiesAmount',
+        ethereum.Value.fromUnsignedBigInt(royaltiesAmount)
+    );
+    newEvent.parameters.push(creatorAmountReceivedParam);
+    newEvent.parameters.push(protocolFeeAmountParam);
+    newEvent.parameters.push(royaltiesAmountParam);
     newEvent.address = Address.fromString(raffleAddress);
     return newEvent;
 }

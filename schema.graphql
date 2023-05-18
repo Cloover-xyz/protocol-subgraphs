@@ -99,9 +99,14 @@ type Raffle @entity{
   # winner of the raffle
   winner: User
   # winning numbers
-  winningNumbers: Int
+  winningNumbers: Int!
   # check if the winner has claimed his prize
-  winnerClaimed: Boolean
+  winnerClaimed: Boolean!
+
+  creatorClaimed: Boolean!
+  creatorAmountReceived: BigInt!
+  treasuryAmountReceived: BigInt!
+  royaltiesAmountReceived: BigInt!
 
   participants: [Participant!]! @derivedFrom(field: "raffle")
 

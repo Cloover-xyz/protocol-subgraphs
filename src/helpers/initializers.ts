@@ -109,7 +109,14 @@ export function initRaffle(
     raffle.insuranceRate = params.insuranceRate;
     raffle.royaltiesRate = params.royaltiesRate;
     raffle.isETH = params.isEthRaffle;
+
     raffle.currentSupply = 0;
+    raffle.winningNumbers = 0;
+    raffle.winnerClaimed = false;
+    raffle.creatorClaimed = false;
+    raffle.creatorAmountReceived = zeroBI();
+    raffle.treasuryAmountReceived = zeroBI();
+    raffle.royaltiesAmountReceived = zeroBI();
 
     let raffleContract = RaffleContract.bind(raffleAddress);
     raffle.endTicketSales = raffleContract.endTicketSales();

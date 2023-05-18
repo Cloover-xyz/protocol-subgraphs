@@ -1,5 +1,6 @@
-import { Address, log } from '@graphprotocol/graph-ts';
+import { Address } from '@graphprotocol/graph-ts';
 import {
+    CreatorClaimed,
     TicketsPurchased,
     WinnerClaimed,
     WinningTicketDrawn,
@@ -43,5 +44,14 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
 export function handleWinnerClaimed(event: WinnerClaimed): void {
     let raffle = getRaffle(event.address);
     raffle.winnerClaimed = true;
+    raffle.save();
+}
+
+export function handleCreatorClaimed(event: CreatorClaimed): void {
+    let raffle = getRaffle(event.address);
+    raffle.creatorClaimed = true;
+    raffle.creatorAmountReceived = event.params.creatorAmountReceived;
+    raffle.treasuryAmountReceived = event.params.protocolFeeAmount;
+    raffle.royaltiesAmountReceived = event.params.royaltiesAmount;
     raffle.save();
 }
