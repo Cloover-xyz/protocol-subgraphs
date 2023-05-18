@@ -1,50 +1,51 @@
 {
-  "name": "protocol-subgraphs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "prepare:subgraph": "mustache ./config/${NETWORK}.json ./templates/subgraph.template.yaml > subgraph.yaml",
-    "subgraph:codegen": "cross-env && pnpm prepare:subgraph && graph codegen",
-    "subgraph:build": "cross-env && pnpm prepare:subgraph && graph codegen && graph build",
-    "coverage": "graph test -- -c",
-    "test": "graph test",
-    "postinstall": "husky install"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@commitlint/cli": "^17.6.3",
-    "@commitlint/config-conventional": "^17.6.3",
-    "@graphprotocol/graph-cli": "^0.49.0",
-    "@graphprotocol/graph-ts": "^0.30.0",
-    "@types/node": "^20.1.4",
-    "@typescript-eslint/eslint-plugin": "^5.59.5",
-    "@typescript-eslint/parser": "^5.59.5",
-    "env-cmd": "^10.1.0",
-    "eslint": "^8.40.0",
-    "eslint-config-prettier": "^8.8.0",
-    "lint-staged": "^13.2.2",
-    "mustache": "^4.2.0",
-    "node-fetch": "^3.3.1",
-    "prettier": "^2.8.8",
-    "typescript": "^5.0.4",
-    "assemblyscript": "^0.19.20",
-    "husky": "^8.0.3"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "matchstick-as": "^0.5.2"
-  },
-  "lint-staged": {
-    "*.json": "pnpm prettier",
-    "*.ts": "pnpm prettier",
-    "*.yml": "pnpm prettier"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  }
+    "name": "protocol-subgraphs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "prepare:subgraph": "mustache ./config/${NETWORK}.json ./templates/subgraph.template.yaml > subgraph.yaml",
+        "subgraph:codegen": "cross-env && pnpm prepare:subgraph && graph codegen",
+        "subgraph:build": "cross-env && pnpm prepare:subgraph && graph codegen && graph build",
+        "coverage": "graph test -- -c",
+        "test": "graph test",
+        "postinstall": "husky install"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@commitlint/cli": "^17.6.3",
+        "@commitlint/config-conventional": "^17.6.3",
+        "@graphprotocol/graph-cli": "^0.49.0",
+        "@graphprotocol/graph-ts": "^0.30.0",
+        "@types/node": "^20.1.4",
+        "@typescript-eslint/eslint-plugin": "^5.59.5",
+        "@typescript-eslint/parser": "^5.59.5",
+        "assemblyscript": "^0.19.20",
+        "env-cmd": "^10.1.0",
+        "eslint": "^8.40.0",
+        "eslint-config-prettier": "^8.8.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.2",
+        "mustache": "^4.2.0",
+        "node-fetch": "^3.3.1",
+        "prettier": "^2.8.8",
+        "typescript": "^5.0.4"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "matchstick-as": "^0.5.2",
+        "wabt": "^1.0.32"
+    },
+    "lint-staged": {
+        "*.json": "pnpm prettier",
+        "*.ts": "pnpm prettier",
+        "*.yml": "pnpm prettier"
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    }
 }
