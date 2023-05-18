@@ -3,6 +3,7 @@ import {
     CreatorClaimed,
     CreatorClaimedInsurance,
     RaffleCancelled,
+    RaffleStatus,
     TicketsPurchased,
     UserClaimedRefund,
     WinnerClaimed,
@@ -11,10 +12,10 @@ import {
 import { getOrInitParticipant, getRaffle } from '../helpers/initializers';
 
 export function handleTicketsPurchased(event: TicketsPurchased): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
 
     raffle.currentSupply = raffle.currentSupply + event.params.nbOfTicketsPurchased;
-    let participant = getOrInitParticipant(event.address, event.params.user);
+    const participant = getOrInitParticipant(event.address, event.params.user);
     participant.numberOfTicketsPurchased =
         participant.numberOfTicketsPurchased + event.params.nbOfTicketsPurchased;
     const participantsNumber = participant.numbers;
@@ -28,14 +29,14 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
 }
 
 export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
     raffle.winningNumbers = event.params.winningTicket;
     raffle.status = 'DRAWN';
     const participants = raffle.participants;
     for (let i = 0; i < participants.length; i++) {
         const participantAddress = Address.fromString(participants[i].split('-')[1]);
         const participant = getOrInitParticipant(event.address, participantAddress);
-        let index = participant.numbers.indexOf(event.params.winningTicket);
+        const index = participant.numbers.indexOf(event.params.winningTicket);
         if (index != -1) {
             raffle.winner = participant.user;
             break;
@@ -45,7 +46,7 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
 }
 
 export function handleWinnerClaimed(event: WinnerClaimed): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
     raffle.winnerClaimed = true;
     if (raffle.creatorClaimed) {
         raffle.status = 'FINISHED';
@@ -54,7 +55,7 @@ export function handleWinnerClaimed(event: WinnerClaimed): void {
 }
 
 export function handleCreatorClaimed(event: CreatorClaimed): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
     raffle.creatorAmountReceived = event.params.creatorAmountReceived;
     raffle.treasuryAmountReceived = event.params.protocolFeeAmount;
@@ -66,7 +67,7 @@ export function handleCreatorClaimed(event: CreatorClaimed): void {
 }
 
 export function handleUserClaimedRefund(event: UserClaimedRefund): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
     raffle.amountOfParticipantsRefunded = raffle.amountOfParticipantsRefunded + 1;
     if (
         raffle.amountOfParticipantsRefunded == raffle.participants.length &&
@@ -75,7 +76,7 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
         raffle.status = 'FINISHED';
     }
     raffle.save();
-    let participant = getOrInitParticipant(event.address, event.params.user);
+    const participant = getOrInitParticipant(event.address, event.params.user);
     participant.claimedRefund = true;
     participant.refundAmount = event.params.amountReceived;
 
@@ -83,7 +84,7 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
 }
 
 export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
     if (raffle.amountOfParticipantsRefunded == raffle.participants.length) {
         raffle.status = 'FINISHED';
@@ -92,7 +93,29 @@ export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): v
 }
 
 export function handleRaffleCancelled(event: RaffleCancelled): void {
-    let raffle = getRaffle(event.address);
+    const raffle = getRaffle(event.address);
     raffle.status = 'CANCELLED';
+    raffle.save();
+}
+
+export function handleRaffleStatus(event: RaffleStatus): void {
+    const raffle = getRaffle(event.address);
+    switch (event.params.status) {
+        case 1:
+            raffle.status = 'DRAWNING';
+            break;
+        case 2:
+            raffle.status = 'DRAWN';
+            break;
+        case 3:
+            raffle.status = 'INSURANCE';
+            break;
+        case 4:
+            raffle.status = 'CANCELLED';
+            break;
+        default:
+            raffle.status = 'DEFAULT';
+            break;
+    }
     raffle.save();
 }

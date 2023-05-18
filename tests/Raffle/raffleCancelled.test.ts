@@ -23,7 +23,7 @@ import { createRaffleCancelledEvent } from '../utils/events/raffle';
 import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
 import { handleRaffleCancelled } from '../../src/mapping/raffle';
 
-describe('Raffle - CreatorClaimed', () => {
+describe('Raffle - Raffle Cancelled', () => {
     beforeEach(() => {
         const addUSDCEvent = createAddedTokenToWhitelistEvent(USDC);
         handleAddedTokenToWhitelists([addUSDCEvent]);

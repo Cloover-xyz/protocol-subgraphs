@@ -8,11 +8,13 @@ import {
     CreatorClaimed,
     CreatorClaimedInsurance,
     RaffleCancelled,
+    RaffleStatus,
     TicketsPurchased,
     UserClaimedRefund,
     WinnerClaimed,
     WinningTicketDrawn,
 } from '../../../generated/RaffleFactory/RaffleEvents';
+import { Status } from '../constants';
 
 export function handeTicketsPurchases(events: TicketsPurchased[]): void {
     events.forEach((event) => {
@@ -143,5 +145,15 @@ export function createCreatorClaimedInsuranceEvent(raffleAddress: string): Creat
 export function createRaffleCancelledEvent(raffleAddress: string): RaffleCancelled {
     const newEvent = changetype<RaffleCancelled>(newMockEvent());
     newEvent.address = Address.fromString(raffleAddress);
+    return newEvent;
+}
+
+export function createRaffleStatusEvent(raffleAddress: string, status: Status): RaffleStatus {
+    const newEvent = changetype<RaffleStatus>(newMockEvent());
+    newEvent.parameters = new Array();
+    const statusParam = new ethereum.EventParam('status', ethereum.Value.fromI32(status));
+    newEvent.parameters.push(statusParam);
+    newEvent.address = Address.fromString(raffleAddress);
+
     return newEvent;
 }
