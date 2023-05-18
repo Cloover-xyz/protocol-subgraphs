@@ -17,7 +17,7 @@ import { NFT_WHITELIST_ENTITY_TYPE, NFT_ENTITY_TYPE } from '../utils/entities';
 import { NFTWhitelist } from '../../generated/schema';
 import { ethereum } from '@graphprotocol/graph-ts';
 
-describe('TokenWhitelist - Remove nft from whitelist', () => {
+describe('NFTWhitelist - Remove nft from whitelist', () => {
   beforeEach(() => {
     const addBoredApeEvent = createAddedNFTToWhitelistEvent(BORED_APE);
     const addDegodsEvent = createAddedNFTToWhitelistEvent(DEGODS);
