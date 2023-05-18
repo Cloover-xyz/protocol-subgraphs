@@ -1,12 +1,14 @@
 import { Address, ethereum, BigInt } from '@graphprotocol/graph-ts';
 
-import { handleTicketsPurchased } from '../../../src/mapping/raffle';
+import { handleTicketsPurchased, handleUserClaimedRefund } from '../../../src/mapping/raffle';
 
 import { newMockEvent } from 'matchstick-as';
 
 import {
     CreatorClaimed,
+    CreatorClaimedInsurance,
     TicketsPurchased,
+    UserClaimedRefund,
     WinnerClaimed,
     WinningTicketDrawn,
 } from '../../../generated/RaffleFactory/RaffleEvents';
@@ -76,7 +78,7 @@ export function createWinnerClaimedEvent(
     return newEvent;
 }
 
-export function createCreatorlaimedEvent(
+export function createCreatorClaimedEvent(
     raffleAddress: string,
     creatorAmountReceived: BigInt,
     protocolFeeAmount: BigInt,
@@ -99,6 +101,40 @@ export function createCreatorlaimedEvent(
     newEvent.parameters.push(creatorAmountReceivedParam);
     newEvent.parameters.push(protocolFeeAmountParam);
     newEvent.parameters.push(royaltiesAmountParam);
+    newEvent.address = Address.fromString(raffleAddress);
+    return newEvent;
+}
+
+export function handleUserClaimedRefunds(events: UserClaimedRefund[]): void {
+    events.forEach((event) => {
+        handleUserClaimedRefund(event);
+    });
+}
+
+export function createUserClaimedRefundEvent(
+    raffleAddress: string,
+    userAddress: string,
+    amountReceived: BigInt
+): UserClaimedRefund {
+    const newEvent = changetype<UserClaimedRefund>(newMockEvent());
+    newEvent.parameters = new Array();
+    const userParam = new ethereum.EventParam(
+        'creatorAmountReceived',
+        ethereum.Value.fromAddress(Address.fromString(userAddress))
+    );
+    const amountReceivedParam = new ethereum.EventParam(
+        'amountReceived',
+        ethereum.Value.fromUnsignedBigInt(amountReceived)
+    );
+
+    newEvent.parameters.push(userParam);
+    newEvent.parameters.push(amountReceivedParam);
+    newEvent.address = Address.fromString(raffleAddress);
+    return newEvent;
+}
+
+export function createCreatorClaimedInsuranceEvent(raffleAddress: string): CreatorClaimedInsurance {
+    const newEvent = changetype<CreatorClaimedInsurance>(newMockEvent());
     newEvent.address = Address.fromString(raffleAddress);
     return newEvent;
 }

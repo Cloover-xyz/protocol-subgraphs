@@ -1,7 +1,9 @@
-import { Address } from '@graphprotocol/graph-ts';
+import { Address, log } from '@graphprotocol/graph-ts';
 import {
     CreatorClaimed,
+    CreatorClaimedInsurance,
     TicketsPurchased,
+    UserClaimedRefund,
     WinnerClaimed,
     WinningTicketDrawn,
 } from '../../generated/RaffleFactory/RaffleEvents';
@@ -44,6 +46,9 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
 export function handleWinnerClaimed(event: WinnerClaimed): void {
     let raffle = getRaffle(event.address);
     raffle.winnerClaimed = true;
+    if (raffle.creatorClaimed) {
+        raffle.status = 'FINISHED';
+    }
     raffle.save();
 }
 
@@ -53,5 +58,34 @@ export function handleCreatorClaimed(event: CreatorClaimed): void {
     raffle.creatorAmountReceived = event.params.creatorAmountReceived;
     raffle.treasuryAmountReceived = event.params.protocolFeeAmount;
     raffle.royaltiesAmountReceived = event.params.royaltiesAmount;
+    if (raffle.winnerClaimed) {
+        raffle.status = 'FINISHED';
+    }
+    raffle.save();
+}
+
+export function handleUserClaimedRefund(event: UserClaimedRefund): void {
+    let raffle = getRaffle(event.address);
+    raffle.amountOfParticipantsRefunded = raffle.amountOfParticipantsRefunded + 1;
+    if (
+        raffle.amountOfParticipantsRefunded == raffle.participants.length &&
+        raffle.creatorClaimed
+    ) {
+        raffle.status = 'FINISHED';
+    }
+    raffle.save();
+    let participant = getOrInitParticipant(event.address, event.params.user);
+    participant.claimedRefund = true;
+    participant.refundAmount = event.params.amountReceived;
+
+    participant.save();
+}
+
+export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): void {
+    let raffle = getRaffle(event.address);
+    raffle.creatorClaimed = true;
+    if (raffle.amountOfParticipantsRefunded == raffle.participants.length) {
+        raffle.status = 'FINISHED';
+    }
     raffle.save();
 }

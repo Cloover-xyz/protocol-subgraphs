@@ -117,6 +117,7 @@ export function initRaffle(
     raffle.creatorAmountReceived = zeroBI();
     raffle.treasuryAmountReceived = zeroBI();
     raffle.royaltiesAmountReceived = zeroBI();
+    raffle.amountOfParticipantsRefunded = 0;
 
     let raffleContract = RaffleContract.bind(raffleAddress);
     raffle.endTicketSales = raffleContract.endTicketSales();
@@ -163,6 +164,8 @@ export function getOrInitParticipant(raffleAddress: Address, userAddress: Addres
         participant.numbers = [];
         participant.raffle = getRaffleId(raffleAddress);
         participant.user = user.id;
+        participant.claimedRefund = false;
+        participant.refundAmount = zeroBI();
         participant.save();
     }
     return participant;

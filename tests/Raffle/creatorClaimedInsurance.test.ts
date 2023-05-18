@@ -6,7 +6,7 @@ import {
     afterEach,
     beforeEach,
 } from 'matchstick-as/assembly/index';
-
+import { BigInt } from '@graphprotocol/graph-ts';
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
 import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
@@ -27,14 +27,15 @@ import {
     handleAddedNFTToWhitelists,
 } from '../utils/events/nftWhitelist';
 import {
+    createCreatorClaimedEvent,
+    createCreatorClaimedInsuranceEvent,
     createTicketsPurchasedEvent,
-    createWinnerClaimedEvent,
     handeTicketsPurchases,
 } from '../utils/events/raffle';
-import { handleWinnerClaimed } from '../../src/mapping/raffle';
+import { handleCreatorClaimed, handleCreatorClaimedInsurance } from '../../src/mapping/raffle';
 import { Raffle } from '../../generated/schema';
 
-describe('Raffle - WinnerClaimed', () => {
+describe('Raffle - CreatorClaimedInsurance', () => {
     beforeEach(() => {
         const addUSDCEvent = createAddedTokenToWhitelistEvent(USDC);
         handleAddedTokenToWhitelists([addUSDCEvent]);
@@ -69,20 +70,25 @@ describe('Raffle - WinnerClaimed', () => {
         clearStore();
     });
 
-    test('should handle winner claimed event', () => {
-        const newWinnerClaimed = createWinnerClaimedEvent(RAFFLE_1_ADDRESS, PARTICIPANT_1_ADDRESS);
-        handleWinnerClaimed(newWinnerClaimed);
+    test('should handle creator claimed insurance event', () => {
+        const newCreatorClaimedInsuranceEvent =
+            createCreatorClaimedInsuranceEvent(RAFFLE_1_ADDRESS);
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winnerClaimed', 'true');
+        handleCreatorClaimedInsurance(newCreatorClaimedInsuranceEvent);
+
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'creatorClaimed', 'true');
     });
-    test('should set raffle status to FINISHED when winner claim prize after creator', () => {
+    test('should set raffle status to FINISHED when creator claim insurance after users', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;
-        raffle.creatorClaimed = true;
+        raffle.amountOfParticipantsRefunded = 2;
         raffle.save();
+
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
 
-        const newWinnerClaimed = createWinnerClaimedEvent(RAFFLE_1_ADDRESS, PARTICIPANT_1_ADDRESS);
-        handleWinnerClaimed(newWinnerClaimed);
+        const newCreatorClaimedInsuranceEvent =
+            createCreatorClaimedInsuranceEvent(RAFFLE_1_ADDRESS);
+
+        handleCreatorClaimedInsurance(newCreatorClaimedInsuranceEvent);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'FINISHED');
     });
