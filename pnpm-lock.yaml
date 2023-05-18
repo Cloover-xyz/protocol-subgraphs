@@ -60,9 +60,6 @@ devDependencies:
   matchstick-as:
     specifier: ^0.5.2
     version: 0.5.2
-  wabt:
-    specifier: ^1.0.32
-    version: 1.0.32
 
 packages:
 
@@ -4977,11 +4974,6 @@ packages:
 
   /wabt@1.0.24:
     resolution: {integrity: sha512-8l7sIOd3i5GWfTWciPL0+ff/FK/deVK2Q6FN+MPz4vfUcD78i2M/49XJTwF6aml91uIiuXJEsLKWMB2cw/mtKg==}
-    hasBin: true
-    dev: true
-
-  /wabt@1.0.32:
-    resolution: {integrity: sha512-1aHvkKaSrrl7qFtAbQ1RWVHLuJApRh7PtUdYvRtiUEKEhk0MOV0sTuz5cLF6jL5jPLRyifLbZcR65AEga/xBhQ==}
     hasBin: true
     dev: true
 

@@ -6,7 +6,6 @@ import {
     afterEach,
     beforeEach,
 } from 'matchstick-as/assembly/index';
-import { BigInt } from '@graphprotocol/graph-ts';
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
 import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
@@ -32,7 +31,7 @@ import {
     createTicketsPurchasedEvent,
     handeTicketsPurchases,
 } from '../utils/events/raffle';
-import { handleCreatorClaimed, handleCreatorClaimedInsurance } from '../../src/mapping/raffle';
+import { handleCreatorClaimedInsurance } from '../../src/mapping/raffle';
 import { Raffle } from '../../generated/schema';
 
 describe('Raffle - CreatorClaimedInsurance', () => {
