@@ -112,9 +112,7 @@ type Participant @entity{
   numberOfTicketsPurchased: Int!
   numbers: [Int!]!
 
-
   raffle: Raffle!
-
   user: User!
 }
 
