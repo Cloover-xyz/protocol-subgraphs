@@ -50,64 +50,84 @@ enum RaffleStatus {
   DRAWNING,
   DRAWN,
   INSURANCE,
-  CANCELLED
+  CANCELLED,
+  FINISHED
 }
 
 type Raffle @entity{
   # contracts address
   id: ID!
 
-  # status of the raffle
-  status: RaffleStatus!
-  
+  # --- Config ---
   # allow indexing by raffleCreated by this user
   creator: User!
-
   # address of the implementation contract
   implementationManager: String!
-
   # allow indexing by token
   token: Token!
   # allow indexing by nft
   nft: NFT!
-
   # id of the NFT
   nftId: BigInt!
-
   # price of the ticket
   ticketPrice: BigInt!
-
   # duration of the ticket sales
   ticketSalesDuration: BigInt!
-
   # total ticket on sales
   maxTotalSupply: Int!
-
   # max amount of tickets per user
   maxTicketAllowedToPurchase: Int!
-
   # min amount of tickets under insurance
   ticketSalesInsurance: Int!
-
   # end of the ticket sales in timestamp
   endTicketSales: BigInt!
-
   # protocol fee rate
   protocolFeeRate: Int!
-
   # insurance rate applied
   insuranceRate: Int!
-
   # royalties rate applied
   royaltiesRate: Int!
-
   # specify if the raffle is in ETH or ERC20
   isETH: Boolean!
-
+  
   raffleFactory: RaffleFactory!
+  
+  # --- LifeCycle ---
+  # status of the raffle
+  status: RaffleStatus!
+  # amount of tickets sold
+  currentSupply: Int!
+  # winner of the raffle
+  winner: User
+  # winning numbers
+  winningNumbers: Int!
+  # check if the winner has claimed his prize
+  winnerClaimed: Boolean!
+
+  creatorClaimed: Boolean!
+  creatorAmountReceived: BigInt!
+  treasuryAmountReceived: BigInt!
+  royaltiesAmountReceived: BigInt!
+
+  amountOfParticipantsRefunded: Int!
+
+  participants: [Participant!]! @derivedFrom(field: "raffle")
+
 }
 
+type Participant @entity{
+  # raffle address - user address
+  id: ID!
 
+  numberOfTicketsPurchased: Int!
+  numbers: [Int!]!
+
+  claimedRefund: Boolean!
+  refundAmount: BigInt!
+
+  raffle: Raffle!
+  user: User!
+}
 
 type User @entity{
   # user address
@@ -115,4 +135,7 @@ type User @entity{
 
   # allow indexing by raffleCreated
   rafflesCreated: [Raffle!]! @derivedFrom(field: "creator")
+
+  # allow indexing by participations
+  participations: [Participant!]! @derivedFrom(field: "user")
 }

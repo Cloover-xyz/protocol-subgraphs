@@ -28,3 +28,6 @@ broadcast/
 # Ignore yarn logs
 yarn-error.log
 yarn-debug.log*
+
+# tests file
+tests/.bin/*

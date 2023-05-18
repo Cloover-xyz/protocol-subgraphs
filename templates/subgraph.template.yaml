@@ -75,6 +75,8 @@ dataSources:
           file: ./abis/RaffleFactory.json
         - name: RaffleContract
           file: ./abis/RaffleContract.json
+        - name: RaffleEvents
+          file: ./abis/RaffleEvents.json
       eventHandlers:
         - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
           handler: handleNewRaffle
@@ -96,5 +98,20 @@ templates:
         - name: RaffleEvents
           file: ./abis/RaffleEvents.json
       eventHandlers:
+        - event: TicketsPurchased(indexed address,uint16,uint16)
+          handler: handleTicketsPurchased
+        - event: WinningTicketDrawn(uint16)
+          handler: handleWinningTicketDrawn
+        - event: WinnerClaimed(address)
+          handler: handleWinnerClaimed
+        - event: CreatorClaimed(uint256,uint256,uint256)
+          handler: handleCreatorClaimed
+        - event: CreatorClaimedInsurance()
+          handler: handleCreatorClaimedInsurance
+        - event: UserClaimedRefund(indexed address,uint256)
+          handler: handleUserClaimedRefund
         - event: RaffleCancelled()
           handler: handleRaffleCancelled
+        - event: RaffleStatus(indexed uint8)
+          handler: handleRaffleStatus
+        

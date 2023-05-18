@@ -41,3 +41,7 @@ export function getNFTId(nftCollectionAddress: Address): string {
 export function getUserId(userAddress: Address): string {
   return userAddress.toHexString();
 }
+
+export function getParticipantId(raffleAddress: Address, userAddress: Address): string {
+  return raffleAddress.toHexString() + '-' + userAddress.toHexString();
+}
