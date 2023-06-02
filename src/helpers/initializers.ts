@@ -123,6 +123,7 @@ export function initRaffle(
     raffle.endTicketSales = raffleContract.endTicketSales();
 
     let user = getOrInitUser(params.creator);
+    user.rafflesCreatedCount = user.rafflesCreatedCount + 1;
     raffle.creator = user.id;
 
     let token = getOrInitToken(params.purchaseCurrency);
@@ -130,7 +131,7 @@ export function initRaffle(
 
     let nft = getOrInitNFT(params.nftContract);
     raffle.nft = nft.id;
-
+    user.save();
     raffle.save();
 }
 
@@ -159,6 +160,7 @@ export function getOrInitParticipant(raffleAddress: Address, userAddress: Addres
     let participant = Participant.load(participantId);
     if (!participant) {
         const user = getOrInitUser(userAddress);
+        user.participationsCount = user.participationsCount + 1;
         participant = new Participant(participantId);
         participant.numberOfTicketsPurchased = 0;
         participant.numbers = [];
@@ -167,6 +169,7 @@ export function getOrInitParticipant(raffleAddress: Address, userAddress: Addres
         participant.claimedRefund = false;
         participant.refundAmount = zeroBI();
         participant.save();
+        user.save();
     }
     return participant;
 }

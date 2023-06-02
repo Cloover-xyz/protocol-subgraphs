@@ -9,7 +9,7 @@ import {
     WinnerClaimed,
     WinningTicketDrawn,
 } from '../../generated/RaffleFactory/RaffleEvents';
-import { getOrInitParticipant, getRaffle } from '../helpers/initializers';
+import { getOrInitParticipant, getOrInitUser, getRaffle } from '../helpers/initializers';
 
 export function handleTicketsPurchased(event: TicketsPurchased): void {
     const raffle = getRaffle(event.address);
@@ -24,6 +24,9 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
     }
     participant.numbers = participantsNumber;
 
+    const user = getOrInitUser(event.params.user);
+    user.ticketsPurchasedCount = user.ticketsPurchasedCount + event.params.nbOfTicketsPurchased;
+    user.save();
     participant.save();
     raffle.save();
 }
@@ -51,6 +54,11 @@ export function handleWinnerClaimed(event: WinnerClaimed): void {
     if (raffle.creatorClaimed) {
         raffle.status = 'FINISHED';
     }
+
+    const user = getOrInitUser(event.params.winner);
+    user.winsCount = user.winsCount + 1;
+
+    user.save();
     raffle.save();
 }
 

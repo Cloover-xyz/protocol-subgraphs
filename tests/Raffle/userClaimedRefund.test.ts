@@ -33,7 +33,7 @@ import {
     handeTicketsPurchases,
     handleUserClaimedRefunds,
 } from '../utils/events/raffle';
-import { handleCreatorClaimed, handleUserClaimedRefund } from '../../src/mapping/raffle';
+import { handleUserClaimedRefund } from '../../src/mapping/raffle';
 import { Raffle } from '../../generated/schema';
 
 describe('Raffle - UserClaimedRefund', () => {

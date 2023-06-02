@@ -133,6 +133,15 @@ type User @entity{
   # user address
   id: ID!
 
+  #total amount of raffles created
+  rafflesCreatedCount: Int
+  #total amount of raffles participated
+  participationsCount: Int
+  #total amount of tickets purchased
+  ticketsPurchasedCount: Int
+  #total amount of raffles won
+  winsCount: Int
+
   # allow indexing by raffleCreated
   rafflesCreated: [Raffle!]! @derivedFrom(field: "creator")
 
