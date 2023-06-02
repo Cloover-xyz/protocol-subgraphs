@@ -20,10 +20,10 @@ type Token @entity(immutable: true) {
 type NFTWhitelist @entity{
   # contracts address
   id: ID!
-  # amount of tokens whitelisted
+  # amount of nft collection whitelisted
   collectionCount: BigInt!
 
-  # allow indexing by tokens
+  # allow indexing by nfts
   nfts: [NFT!]!
 }
 
@@ -72,15 +72,15 @@ type Raffle @entity{
   # price of the ticket
   ticketPrice: BigInt!
   # duration of the ticket sales
-  ticketSalesDuration: BigInt!
-  # total ticket on sales
-  maxTotalSupply: Int!
-  # max amount of tickets per user
-  maxTicketAllowedToPurchase: Int!
-  # min amount of tickets under insurance
-  ticketSalesInsurance: Int!
+  salesDuration: BigInt!
   # end of the ticket sales in timestamp
   endTicketSales: BigInt!
+  # total ticket on sales
+  maxTicketSupply: Int!
+  # max amount of tickets per user
+  maxTicketsAllowedToPurchasePerWallet: Int!
+  # min amount of tickets under insurance
+  ticketSalesInsurance: Int!
   # protocol fee rate
   protocolFeeRate: Int!
   # insurance rate applied
@@ -96,20 +96,20 @@ type Raffle @entity{
   # status of the raffle
   status: RaffleStatus!
   # amount of tickets sold
-  currentSupply: Int!
+  currentTicketSold: Int!
   # winner of the raffle
   winner: User
   # winning numbers
-  winningNumbers: Int!
+  winningTicketNumber: Int!
   # check if the winner has claimed his prize
   winnerClaimed: Boolean!
 
   creatorClaimed: Boolean!
-  creatorAmountReceived: BigInt!
-  treasuryAmountReceived: BigInt!
-  royaltiesAmountReceived: BigInt!
+  creatorAmountEarned: BigInt!
+  treasuryAmountEarned: BigInt!
+  royaltiesAmountSent: BigInt!
 
-  amountOfParticipantsRefunded: Int!
+  participantsAmountRefunded: Int!
 
   participants: [Participant!]! @derivedFrom(field: "raffle")
 
@@ -134,21 +134,21 @@ type User @entity{
   id: ID!
 
   #total amount of raffles created
-  rafflesCreatedCount: Int
+  overallCreatedRaffle: Int
   #total raffles created correctly finished
-  rafflesCreatedFinishedCount: Int
+  overallCreatedRaffleEnded: Int
   #total raffle cancelled
-  rafflesCreatedCancelledCount: Int
+  overallCreatedRaffleCancelled: Int
   #total amount of raffles created refunded
-  rafflesCreatedRefundedCount: Int
+  overallCreatedRaffleRefunded: Int
   #total amount of raffles participated
-  participationsCount: Int
+  overallRaffleParticipation: Int
   #total amount of raffles participated refunded
-  participationsRefundedCount: Int
+  overallParticipationsRefunded: Int
   #total amount of tickets purchased
-  ticketsPurchasedCount: Int
+  overallTicketPurchase: Int
   #total amount of raffles won
-  winsCount: Int
+  overallRaffleWins: Int
 
   # allow indexing by raffleCreated
   rafflesCreated: [Raffle!]! @derivedFrom(field: "creator")

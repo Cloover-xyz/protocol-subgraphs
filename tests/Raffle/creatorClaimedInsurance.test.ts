@@ -76,11 +76,11 @@ describe('Raffle - CreatorClaimedInsurance', () => {
         handleCreatorClaimedInsurance(newCreatorClaimedInsuranceEvent);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'creatorClaimed', 'true');
-        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedRefundedCount', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleRefunded', '1');
     });
     test('should set raffle status to FINISHED when creator claim insurance after users', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;
-        raffle.amountOfParticipantsRefunded = 2;
+        raffle.participantsAmountRefunded = 2;
         raffle.save();
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');

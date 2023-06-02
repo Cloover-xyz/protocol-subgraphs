@@ -47,6 +47,6 @@ describe('Raffle - Raffle Cancelled', () => {
         const newCancelEvent = createRaffleCancelledEvent(RAFFLE_1_ADDRESS);
         handleRaffleCancelled(newCancelEvent);
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'CANCELLED');
-        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedCancelledCount', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleCancelled', '1');
     });
 });

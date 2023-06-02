@@ -83,15 +83,15 @@ export function createWinnerClaimedEvent(
 
 export function createCreatorClaimedEvent(
     raffleAddress: string,
-    creatorAmountReceived: BigInt,
+    creatorAmountEarned: BigInt,
     protocolFeeAmount: BigInt,
     royaltiesAmount: BigInt
 ): CreatorClaimed {
     const newEvent = changetype<CreatorClaimed>(newMockEvent());
     newEvent.parameters = new Array();
-    const creatorAmountReceivedParam = new ethereum.EventParam(
-        'creatorAmountReceived',
-        ethereum.Value.fromUnsignedBigInt(creatorAmountReceived)
+    const creatorAmountEarnedParam = new ethereum.EventParam(
+        'creatorAmountEarned',
+        ethereum.Value.fromUnsignedBigInt(creatorAmountEarned)
     );
     const protocolFeeAmountParam = new ethereum.EventParam(
         'protocolFeeAmount',
@@ -101,7 +101,7 @@ export function createCreatorClaimedEvent(
         'royaltiesAmount',
         ethereum.Value.fromUnsignedBigInt(royaltiesAmount)
     );
-    newEvent.parameters.push(creatorAmountReceivedParam);
+    newEvent.parameters.push(creatorAmountEarnedParam);
     newEvent.parameters.push(protocolFeeAmountParam);
     newEvent.parameters.push(royaltiesAmountParam);
     newEvent.address = Address.fromString(raffleAddress);
@@ -122,7 +122,7 @@ export function createUserClaimedRefundEvent(
     const newEvent = changetype<UserClaimedRefund>(newMockEvent());
     newEvent.parameters = new Array();
     const userParam = new ethereum.EventParam(
-        'creatorAmountReceived',
+        'creatorAmountEarned',
         ethereum.Value.fromAddress(Address.fromString(userAddress))
     );
     const amountReceivedParam = new ethereum.EventParam(

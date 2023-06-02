@@ -65,9 +65,14 @@ describe('Raffle - Tickets Purchased', () => {
             ethereum.Value.fromI32(1),
             ethereum.Value.fromI32(raffle.participants.length)
         );
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'currentSupply', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'participationsCount', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'ticketsPurchasedCount', '1');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'currentTicketSold', '1');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'overallRaffleParticipation',
+            '1'
+        );
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketPurchase', '1');
 
         const participantId = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
         const participant = Participant.load(participantId)!;
@@ -94,9 +99,14 @@ describe('Raffle - Tickets Purchased', () => {
             ethereum.Value.fromI32(1),
             ethereum.Value.fromI32(raffle.participants.length)
         );
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'currentSupply', '10');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'participationsCount', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'ticketsPurchasedCount', '10');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'currentTicketSold', '10');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'overallRaffleParticipation',
+            '1'
+        );
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketPurchase', '10');
         const participantId = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
         const participant = Participant.load(participantId)!;
         assert.equals(
@@ -137,13 +147,23 @@ describe('Raffle - Tickets Purchased', () => {
             ethereum.Value.fromI32(2),
             ethereum.Value.fromI32(raffle.participants.length)
         );
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'currentSupply', '20');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'currentTicketSold', '20');
 
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'participationsCount', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'ticketsPurchasedCount', '10');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'overallRaffleParticipation',
+            '1'
+        );
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketPurchase', '10');
 
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_2_ADDRESS, 'participationsCount', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_2_ADDRESS, 'ticketsPurchasedCount', '10');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_2_ADDRESS,
+            'overallRaffleParticipation',
+            '1'
+        );
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_2_ADDRESS, 'overallTicketPurchase', '10');
 
         const participant_1_Id = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
         const participant_1 = Participant.load(participant_1_Id)!;

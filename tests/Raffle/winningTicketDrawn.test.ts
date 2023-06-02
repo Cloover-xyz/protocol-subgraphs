@@ -72,23 +72,23 @@ describe('Raffle - WinningTicketDrawn', () => {
         let newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 10);
         handleWinningTicketDrawn(newWinningTicket);
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '10');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningTicketNumber', '10');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'winsCount', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedFinishedCount', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallRaffleWins', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleEnded', '1');
         newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 1);
         handleWinningTicketDrawn(newWinningTicket);
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'winsCount', '2');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningTicketNumber', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallRaffleWins', '2');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
-        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedFinishedCount', '2');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleEnded', '2');
     });
     test('should handle winning ticket drawn and find the winnner as second participant', () => {
         const newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 11);
         handleWinningTicketDrawn(newWinningTicket);
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '11');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningTicketNumber', '11');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_2_ADDRESS);
     });
 });

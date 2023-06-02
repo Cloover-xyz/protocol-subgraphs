@@ -100,9 +100,9 @@ export function initRaffle(
     raffle.implementationManager = params.implementationManager.toHexString();
     raffle.raffleFactory = factoryAddress.toHexString();
     raffle.nftId = params.nftId;
-    raffle.maxTotalSupply = params.maxTotalSupply;
-    raffle.ticketSalesDuration = params.ticketSalesDuration;
-    raffle.maxTicketAllowedToPurchase = params.maxTicketAllowedToPurchase;
+    raffle.maxTicketSupply = params.maxTicketSupply;
+    raffle.salesDuration = params.salesDuration;
+    raffle.maxTicketsAllowedToPurchasePerWallet = params.maxTicketsAllowedToPurchasePerWallet;
     raffle.ticketSalesInsurance = params.ticketSalesInsurance;
     raffle.ticketPrice = params.ticketPrice;
     raffle.protocolFeeRate = params.protocolFeeRate;
@@ -110,20 +110,20 @@ export function initRaffle(
     raffle.royaltiesRate = params.royaltiesRate;
     raffle.isETH = params.isEthRaffle;
 
-    raffle.currentSupply = 0;
-    raffle.winningNumbers = 0;
+    raffle.currentTicketSold = 0;
+    raffle.winningTicketNumber = 0;
     raffle.winnerClaimed = false;
     raffle.creatorClaimed = false;
-    raffle.creatorAmountReceived = zeroBI();
-    raffle.treasuryAmountReceived = zeroBI();
-    raffle.royaltiesAmountReceived = zeroBI();
-    raffle.amountOfParticipantsRefunded = 0;
+    raffle.creatorAmountEarned = zeroBI();
+    raffle.treasuryAmountEarned = zeroBI();
+    raffle.royaltiesAmountSent = zeroBI();
+    raffle.participantsAmountRefunded = 0;
 
     let raffleContract = RaffleContract.bind(raffleAddress);
     raffle.endTicketSales = raffleContract.endTicketSales();
 
     let user = getOrInitUser(params.creator);
-    user.rafflesCreatedCount = user.rafflesCreatedCount + 1;
+    user.overallCreatedRaffle = user.overallCreatedRaffle + 1;
     raffle.creator = user.id;
 
     let token = getOrInitToken(params.purchaseCurrency);
@@ -160,7 +160,7 @@ export function getOrInitParticipant(raffleAddress: Address, userAddress: Addres
     let participant = Participant.load(participantId);
     if (!participant) {
         const user = getOrInitUser(userAddress);
-        user.participationsCount = user.participationsCount + 1;
+        user.overallRaffleParticipation = user.overallRaffleParticipation + 1;
         participant = new Participant(participantId);
         participant.numberOfTicketsPurchased = 0;
         participant.numbers = [];

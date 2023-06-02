@@ -14,7 +14,7 @@ import { getOrInitParticipant, getOrInitUser, getRaffle } from '../helpers/initi
 export function handleTicketsPurchased(event: TicketsPurchased): void {
     const raffle = getRaffle(event.address);
 
-    raffle.currentSupply = raffle.currentSupply + event.params.nbOfTicketsPurchased;
+    raffle.currentTicketSold = raffle.currentTicketSold + event.params.nbOfTicketsPurchased;
     const participant = getOrInitParticipant(event.address, event.params.user);
     participant.numberOfTicketsPurchased =
         participant.numberOfTicketsPurchased + event.params.nbOfTicketsPurchased;
@@ -25,7 +25,7 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
     participant.numbers = participantsNumber;
 
     const user = getOrInitUser(event.params.user);
-    user.ticketsPurchasedCount = user.ticketsPurchasedCount + event.params.nbOfTicketsPurchased;
+    user.overallTicketPurchase = user.overallTicketPurchase + event.params.nbOfTicketsPurchased;
     user.save();
     participant.save();
     raffle.save();
@@ -33,7 +33,7 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
 
 export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
     const raffle = getRaffle(event.address);
-    raffle.winningNumbers = event.params.winningTicket;
+    raffle.winningTicketNumber = event.params.winningTicket;
     raffle.status = 'DRAWN';
     const participants = raffle.participants;
     for (let i = 0; i < participants.length; i++) {
@@ -46,10 +46,10 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
         }
     }
     const creator = getOrInitUser(Address.fromString(raffle.creator));
-    creator.rafflesCreatedFinishedCount = creator.rafflesCreatedFinishedCount + 1;
+    creator.overallCreatedRaffleEnded = creator.overallCreatedRaffleEnded + 1;
 
     const user = getOrInitUser(Address.fromString(raffle.winner!));
-    user.winsCount = user.winsCount + 1;
+    user.overallRaffleWins = user.overallRaffleWins + 1;
 
     creator.save();
     user.save();
@@ -68,9 +68,9 @@ export function handleWinnerClaimed(event: WinnerClaimed): void {
 export function handleCreatorClaimed(event: CreatorClaimed): void {
     const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
-    raffle.creatorAmountReceived = event.params.creatorAmountReceived;
-    raffle.treasuryAmountReceived = event.params.protocolFeeAmount;
-    raffle.royaltiesAmountReceived = event.params.royaltiesAmount;
+    raffle.creatorAmountEarned = event.params.creatorAmountEarned;
+    raffle.treasuryAmountEarned = event.params.protocolFeeAmount;
+    raffle.royaltiesAmountSent = event.params.royaltiesAmount;
     if (raffle.winnerClaimed) {
         raffle.status = 'FINISHED';
     }
@@ -79,11 +79,8 @@ export function handleCreatorClaimed(event: CreatorClaimed): void {
 
 export function handleUserClaimedRefund(event: UserClaimedRefund): void {
     const raffle = getRaffle(event.address);
-    raffle.amountOfParticipantsRefunded = raffle.amountOfParticipantsRefunded + 1;
-    if (
-        raffle.amountOfParticipantsRefunded == raffle.participants.length &&
-        raffle.creatorClaimed
-    ) {
+    raffle.participantsAmountRefunded = raffle.participantsAmountRefunded + 1;
+    if (raffle.participantsAmountRefunded == raffle.participants.length && raffle.creatorClaimed) {
         raffle.status = 'FINISHED';
     }
     const participant = getOrInitParticipant(event.address, event.params.user);
@@ -91,7 +88,7 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
     participant.refundAmount = event.params.amountReceived;
 
     const user = getOrInitUser(event.params.user);
-    user.participationsRefundedCount = user.participationsRefundedCount + 1;
+    user.overallParticipationsRefunded = user.overallParticipationsRefunded + 1;
 
     user.save();
     participant.save();
@@ -101,11 +98,11 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
 export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): void {
     const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
-    if (raffle.amountOfParticipantsRefunded == raffle.participants.length) {
+    if (raffle.participantsAmountRefunded == raffle.participants.length) {
         raffle.status = 'FINISHED';
     }
     const creator = getOrInitUser(Address.fromString(raffle.creator));
-    creator.rafflesCreatedRefundedCount = creator.rafflesCreatedRefundedCount + 1;
+    creator.overallCreatedRaffleRefunded = creator.overallCreatedRaffleRefunded + 1;
 
     creator.save();
     raffle.save();
@@ -116,7 +113,7 @@ export function handleRaffleCancelled(event: RaffleCancelled): void {
     raffle.status = 'CANCELLED';
 
     const creator = getOrInitUser(Address.fromString(raffle.creator));
-    creator.rafflesCreatedCancelledCount = creator.rafflesCreatedCancelledCount + 1;
+    creator.overallCreatedRaffleCancelled = creator.overallCreatedRaffleCancelled + 1;
 
     creator.save();
     raffle.save();
