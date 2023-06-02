@@ -8,7 +8,11 @@ import {
 } from 'matchstick-as/assembly/index';
 
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
-import { RAFFLE_ENTITY_TYPE, RAFFLE_FACTORY_ENTITY_TYPE } from '../utils/entities';
+import {
+    RAFFLE_ENTITY_TYPE,
+    RAFFLE_FACTORY_ENTITY_TYPE,
+    USER_ENTITY_TYPE,
+} from '../utils/entities';
 import { RaffleFactory, Raffle } from '../../generated/schema';
 import { ethereum } from '@graphprotocol/graph-ts';
 import { RaffleConfig } from '../utils/raffleConfig';
@@ -68,6 +72,7 @@ describe('RaffleFactory - New Raffle created', () => {
         assert.entityCount(RAFFLE_ENTITY_TYPE, 1);
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'id', RAFFLE_1_ADDRESS);
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffle', '1');
     });
 
     test('should handle multi new raffle', () => {
@@ -87,6 +92,7 @@ describe('RaffleFactory - New Raffle created', () => {
         const newRaffle2Event = createNewRaffleEvent(raffleConfig_2);
         handeNewRaffles([newRaffle1Event, newRaffle2Event]);
         const raffleFactory = RaffleFactory.load(RAFFLE_FACTORY_ADDRESS)!;
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffle', '2');
         assert.fieldEquals(RAFFLE_FACTORY_ENTITY_TYPE, RAFFLE_FACTORY_ADDRESS, 'raffleCount', '2');
         assert.equals(
             ethereum.Value.fromI32(raffleFactory.raffles.length),

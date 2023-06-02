@@ -1,606 +1,606 @@
 [
-  {
-    "inputs": [],
-    "name": "ALREADY_CLAIMED",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "CANT_BE_ZERO",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "DRAW_NOT_POSSIBLE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "EXCEED_MAX_TICKET_ALLOWED_TO_PURCHASE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "IS_ETH_RAFFLE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "MSG_SENDER_NOT_WINNER",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOTHING_TO_CLAIM",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOT_CREATOR",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOT_ETH_RAFFLE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOT_RANDOM_PROVIDER_CONTRACT",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NO_INSURANCE_TAKEN",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "RAFFLE_CLOSE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "RAFFLE_STILL_OPEN",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "SALES_ALREADY_STARTED",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "SALES_EXCEED_INSURANCE_LIMIT",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "TICKET_ALREADY_DRAWN",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "TICKET_NOT_DRAWN",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "TICKET_SUPPLY_OVERFLOW",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "WRONG_MSG_VALUE",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint8",
+    {
+        "inputs": [],
+        "name": "ALREADY_CLAIMED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "CANT_BE_ZERO",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "DRAW_NOT_POSSIBLE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "EXCEED_MAX_TICKET_ALLOWED_TO_PURCHASE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "IS_ETH_RAFFLE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "MSG_SENDER_NOT_WINNER",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOTHING_TO_CLAIM",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOT_CREATOR",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOT_ETH_RAFFLE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOT_RANDOM_PROVIDER_CONTRACT",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NO_INSURANCE_TAKEN",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "RAFFLE_CLOSE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "RAFFLE_STILL_OPEN",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "SALES_ALREADY_STARTED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "SALES_EXCEED_INSURANCE_LIMIT",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TICKET_ALREADY_DRAWN",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TICKET_NOT_DRAWN",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TICKET_SUPPLY_OVERFLOW",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "WRONG_MSG_VALUE",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint8",
+                "name": "version",
+                "type": "uint8"
+            }
+        ],
+        "name": "Initialized",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+            {
+                "internalType": "uint16[]",
+                "name": "",
+                "type": "uint16[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "cancelRaffle",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "creator",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "creatorClaimInsurance",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "creatorClaimInsuranceInEth",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "creatorClaimTicketSales",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "creatorClaimTicketSalesInEth",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "currentTicketSold",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "draw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "randomNumbers",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "draw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "endTicketSales",
+        "outputs": [
+            {
+                "internalType": "uint64",
+                "name": "",
+                "type": "uint64"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "creator",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "implementationManager",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "purchaseCurrency",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "nftContract",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "nftId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "ticketPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "salesDuration",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketSupply",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketsAllowedToPurchasePerWallet",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "ticketSalesInsurance",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "protocolFeeRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "insuranceRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "royaltiesRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "isEthRaffle",
+                        "type": "bool"
+                    }
+                ],
+                "internalType": "struct ClooverRaffleTypes.InitializeRaffleParams",
+                "name": "params",
+                "type": "tuple"
+            }
+        ],
+        "name": "initialize",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "insurancePaid",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "isEthRaffle",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "maxTicketsAllowedToPurchasePerWallet",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "maxTicketSupply",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nftInfo",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "nftContractAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "nftId",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "id",
+                "type": "uint16"
+            }
+        ],
+        "name": "ownerOf",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "purchaseCurrency",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "nbOfTickets",
+                "type": "uint16"
+            }
+        ],
+        "name": "purchaseTickets",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "nbOfTickets",
+                "type": "uint16"
+            }
+        ],
+        "name": "purchaseTicketsInEth",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "nbOfTickets",
+                "type": "uint16"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "deadline",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "v",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "r",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "s",
+                        "type": "bytes32"
+                    }
+                ],
+                "internalType": "struct ClooverRaffleTypes.PermitDataParams",
+                "name": "permitData",
+                "type": "tuple"
+            }
+        ],
+        "name": "purchaseTicketsWithPermit",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "raffleStatus",
+        "outputs": [
+            {
+                "internalType": "enum ClooverRaffleTypes.Status",
+                "name": "",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "randomProvider",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "royaltiesRate",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "ticketPrice",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "ticketSalesInsurance",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "userClaimRefund",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "userClaimRefundInEth",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "version",
-        "type": "uint8"
-      }
-    ],
-    "name": "Initialized",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "internalType": "uint16[]",
-        "name": "",
-        "type": "uint16[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "cancelRaffle",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "creator",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "creatorClaimInsurance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "creatorClaimInsuranceInEth",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "creatorClaimTicketSales",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "creatorClaimTicketSalesInEth",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "currentSupply",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "draw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "randomNumbers",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "draw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "endTicketSales",
-    "outputs": [
-      {
-        "internalType": "uint64",
-        "name": "",
-        "type": "uint64"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "creator",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "implementationManager",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "purchaseCurrency",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "nftContract",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "nftId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ticketPrice",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint64",
-            "name": "ticketSalesDuration",
-            "type": "uint64"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maxTotalSupply",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maxTicketAllowedToPurchase",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "ticketSalesInsurance",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "protocolFeeRate",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "insuranceRate",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "royaltiesRate",
-            "type": "uint16"
-          },
-          {
-            "internalType": "bool",
-            "name": "isEthRaffle",
-            "type": "bool"
-          }
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
         ],
-        "internalType": "struct ClooverRaffleTypes.InitializeRaffleParams",
-        "name": "params",
-        "type": "tuple"
-      }
-    ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "insurancePaid",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "isEthRaffle",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "maxTicketAllowedToPurchase",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "maxTotalSupply",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "nftInfo",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "nftContractAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "nftId",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "id",
-        "type": "uint16"
-      }
-    ],
-    "name": "ownerOf",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "purchaseCurrency",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "nbOfTickets",
-        "type": "uint16"
-      }
-    ],
-    "name": "purchaseTickets",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "nbOfTickets",
-        "type": "uint16"
-      }
-    ],
-    "name": "purchaseTicketsInEth",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "nbOfTickets",
-        "type": "uint16"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "v",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "r",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "s",
-            "type": "bytes32"
-          }
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "winnerAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
         ],
-        "internalType": "struct ClooverRaffleTypes.PermitDataParams",
-        "name": "permitData",
-        "type": "tuple"
-      }
-    ],
-    "name": "purchaseTicketsWithPermit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "raffleStatus",
-    "outputs": [
-      {
-        "internalType": "enum ClooverRaffleTypes.Status",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "randomProvider",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "royaltiesRate",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ticketPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ticketSalesInsurance",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "userClaimRefund",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "userClaimRefundInEth",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "version",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "winnerAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "winnerClaim",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "winningTicketNumber",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "winnerClaim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "winningTicketNumber",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
 ]

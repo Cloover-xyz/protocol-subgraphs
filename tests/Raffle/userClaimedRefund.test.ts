@@ -8,7 +8,7 @@ import {
 } from 'matchstick-as/assembly/index';
 import { BigInt } from '@graphprotocol/graph-ts';
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
-import { PARTICIPANT_ENTITY_TYPE, RAFFLE_ENTITY_TYPE } from '../utils/entities';
+import { PARTICIPANT_ENTITY_TYPE, RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
     BORED_APE,
@@ -27,13 +27,12 @@ import {
     handleAddedNFTToWhitelists,
 } from '../utils/events/nftWhitelist';
 import {
-    createCreatorClaimedEvent,
     createTicketsPurchasedEvent,
     createUserClaimedRefundEvent,
     handeTicketsPurchases,
     handleUserClaimedRefunds,
 } from '../utils/events/raffle';
-import { handleCreatorClaimed, handleUserClaimedRefund } from '../../src/mapping/raffle';
+import { handleUserClaimedRefund } from '../../src/mapping/raffle';
 import { Raffle } from '../../generated/schema';
 
 describe('Raffle - UserClaimedRefund', () => {
@@ -78,10 +77,11 @@ describe('Raffle - UserClaimedRefund', () => {
         );
         handleUserClaimedRefund(userClaimEvent);
 
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'participantsAmountRefunded', '1');
         assert.fieldEquals(
-            RAFFLE_ENTITY_TYPE,
-            RAFFLE_1_ADDRESS,
-            'amountOfParticipantsRefunded',
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'overallParticipationsRefunded',
             '1'
         );
         const participantId = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
@@ -105,12 +105,7 @@ describe('Raffle - UserClaimedRefund', () => {
             BigInt.fromString('5000000000000000000')
         );
         handleUserClaimedRefunds([user1ClaimEvent, user2ClaimEvent]);
-        assert.fieldEquals(
-            RAFFLE_ENTITY_TYPE,
-            RAFFLE_1_ADDRESS,
-            'amountOfParticipantsRefunded',
-            '2'
-        );
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'participantsAmountRefunded', '2');
     });
     test('should set raffle status to FINISHED when last user claim refund after creator', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;

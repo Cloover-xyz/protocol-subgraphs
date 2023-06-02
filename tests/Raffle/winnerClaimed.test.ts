@@ -8,7 +8,7 @@ import {
 } from 'matchstick-as/assembly/index';
 
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
-import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
+import { RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
     BORED_APE,

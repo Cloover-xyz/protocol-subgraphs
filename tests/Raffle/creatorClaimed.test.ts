@@ -84,19 +84,19 @@ describe('Raffle - CreatorClaimed', () => {
         assert.fieldEquals(
             RAFFLE_ENTITY_TYPE,
             RAFFLE_1_ADDRESS,
-            'creatorAmountReceived',
+            'creatorAmountEarned',
             '10000000000000000000'
         );
         assert.fieldEquals(
             RAFFLE_ENTITY_TYPE,
             RAFFLE_1_ADDRESS,
-            'treasuryAmountReceived',
+            'treasuryAmountEarned',
             '1000000000000000000'
         );
         assert.fieldEquals(
             RAFFLE_ENTITY_TYPE,
             RAFFLE_1_ADDRESS,
-            'royaltiesAmountReceived',
+            'royaltiesAmountSent',
             '2000000000000000000'
         );
     });
