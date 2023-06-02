@@ -135,8 +135,16 @@ type User @entity{
 
   #total amount of raffles created
   rafflesCreatedCount: Int
+  #total raffles created correctly finished
+  rafflesCreatedFinishedCount: Int
+  #total raffle cancelled
+  rafflesCreatedCancelledCount: Int
+  #total amount of raffles created refunded
+  rafflesCreatedRefundedCount: Int
   #total amount of raffles participated
   participationsCount: Int
+  #total amount of raffles participated refunded
+  participationsRefundedCount: Int
   #total amount of tickets purchased
   ticketsPurchasedCount: Int
   #total amount of raffles won

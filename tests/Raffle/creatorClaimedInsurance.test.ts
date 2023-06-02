@@ -7,7 +7,7 @@ import {
     beforeEach,
 } from 'matchstick-as/assembly/index';
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
-import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
+import { RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
     BORED_APE,
@@ -76,6 +76,7 @@ describe('Raffle - CreatorClaimedInsurance', () => {
         handleCreatorClaimedInsurance(newCreatorClaimedInsuranceEvent);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'creatorClaimed', 'true');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedRefundedCount', '1');
     });
     test('should set raffle status to FINISHED when creator claim insurance after users', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;

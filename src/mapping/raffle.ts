@@ -45,6 +45,14 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
             break;
         }
     }
+    const creator = getOrInitUser(Address.fromString(raffle.creator));
+    creator.rafflesCreatedFinishedCount = creator.rafflesCreatedFinishedCount + 1;
+
+    const user = getOrInitUser(Address.fromString(raffle.winner!));
+    user.winsCount = user.winsCount + 1;
+
+    creator.save();
+    user.save();
     raffle.save();
 }
 
@@ -54,11 +62,6 @@ export function handleWinnerClaimed(event: WinnerClaimed): void {
     if (raffle.creatorClaimed) {
         raffle.status = 'FINISHED';
     }
-
-    const user = getOrInitUser(event.params.winner);
-    user.winsCount = user.winsCount + 1;
-
-    user.save();
     raffle.save();
 }
 
@@ -83,12 +86,16 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
     ) {
         raffle.status = 'FINISHED';
     }
-    raffle.save();
     const participant = getOrInitParticipant(event.address, event.params.user);
     participant.claimedRefund = true;
     participant.refundAmount = event.params.amountReceived;
 
+    const user = getOrInitUser(event.params.user);
+    user.participationsRefundedCount = user.participationsRefundedCount + 1;
+
+    user.save();
     participant.save();
+    raffle.save();
 }
 
 export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): void {
@@ -97,12 +104,21 @@ export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): v
     if (raffle.amountOfParticipantsRefunded == raffle.participants.length) {
         raffle.status = 'FINISHED';
     }
+    const creator = getOrInitUser(Address.fromString(raffle.creator));
+    creator.rafflesCreatedRefundedCount = creator.rafflesCreatedRefundedCount + 1;
+
+    creator.save();
     raffle.save();
 }
 
 export function handleRaffleCancelled(event: RaffleCancelled): void {
     const raffle = getRaffle(event.address);
     raffle.status = 'CANCELLED';
+
+    const creator = getOrInitUser(Address.fromString(raffle.creator));
+    creator.rafflesCreatedCancelledCount = creator.rafflesCreatedCancelledCount + 1;
+
+    creator.save();
     raffle.save();
 }
 

@@ -20,7 +20,7 @@ import {
     handleAddedNFTToWhitelists,
 } from '../utils/events/nftWhitelist';
 import { createRaffleCancelledEvent } from '../utils/events/raffle';
-import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
+import { RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { handleRaffleCancelled } from '../../src/mapping/raffle';
 
 describe('Raffle - Raffle Cancelled', () => {
@@ -47,5 +47,6 @@ describe('Raffle - Raffle Cancelled', () => {
         const newCancelEvent = createRaffleCancelledEvent(RAFFLE_1_ADDRESS);
         handleRaffleCancelled(newCancelEvent);
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'CANCELLED');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedCancelledCount', '1');
     });
 });

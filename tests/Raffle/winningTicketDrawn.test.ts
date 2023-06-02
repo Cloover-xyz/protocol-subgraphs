@@ -8,7 +8,7 @@ import {
 } from 'matchstick-as/assembly/index';
 
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
-import { RAFFLE_ENTITY_TYPE } from '../utils/entities';
+import { RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
     BORED_APE,
@@ -74,12 +74,15 @@ describe('Raffle - WinningTicketDrawn', () => {
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '10');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
-
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'winsCount', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedFinishedCount', '1');
         newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 1);
         handleWinningTicketDrawn(newWinningTicket);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningNumbers', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'winsCount', '2');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
+        assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'rafflesCreatedFinishedCount', '2');
     });
     test('should handle winning ticket drawn and find the winnner as second participant', () => {
         const newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 11);

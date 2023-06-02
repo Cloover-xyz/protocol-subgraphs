@@ -74,7 +74,6 @@ describe('Raffle - WinnerClaimed', () => {
         handleWinnerClaimed(newWinnerClaimed);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winnerClaimed', 'true');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'winsCount', '1');
     });
     test('should set raffle status to FINISHED when winner claim prize after creator', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;

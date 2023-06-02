@@ -8,7 +8,7 @@ import {
 } from 'matchstick-as/assembly/index';
 import { BigInt } from '@graphprotocol/graph-ts';
 import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
-import { PARTICIPANT_ENTITY_TYPE, RAFFLE_ENTITY_TYPE } from '../utils/entities';
+import { PARTICIPANT_ENTITY_TYPE, RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
     BORED_APE,
@@ -27,7 +27,6 @@ import {
     handleAddedNFTToWhitelists,
 } from '../utils/events/nftWhitelist';
 import {
-    createCreatorClaimedEvent,
     createTicketsPurchasedEvent,
     createUserClaimedRefundEvent,
     handeTicketsPurchases,
@@ -82,6 +81,12 @@ describe('Raffle - UserClaimedRefund', () => {
             RAFFLE_ENTITY_TYPE,
             RAFFLE_1_ADDRESS,
             'amountOfParticipantsRefunded',
+            '1'
+        );
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'participationsRefundedCount',
             '1'
         );
         const participantId = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
