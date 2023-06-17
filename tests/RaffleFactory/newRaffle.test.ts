@@ -7,7 +7,7 @@ import {
     beforeEach,
 } from 'matchstick-as/assembly/index';
 
-import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
+import { createNewRaffleEvent, handleNewRaffles } from '../utils/events/raffleFactory';
 import {
     RAFFLE_ENTITY_TYPE,
     RAFFLE_FACTORY_ENTITY_TYPE,
@@ -57,7 +57,7 @@ describe('RaffleFactory - New Raffle created', () => {
             BORED_APE.address
         );
         const newRaffleEvent = createNewRaffleEvent(raffleConfig);
-        handeNewRaffles([newRaffleEvent]);
+        handleNewRaffles([newRaffleEvent]);
         const raffleFactory = RaffleFactory.load(RAFFLE_FACTORY_ADDRESS)!;
         assert.fieldEquals(RAFFLE_FACTORY_ENTITY_TYPE, RAFFLE_FACTORY_ADDRESS, 'raffleCount', '1');
         assert.equals(
@@ -90,7 +90,7 @@ describe('RaffleFactory - New Raffle created', () => {
             DEGODS.address
         );
         const newRaffle2Event = createNewRaffleEvent(raffleConfig_2);
-        handeNewRaffles([newRaffle1Event, newRaffle2Event]);
+        handleNewRaffles([newRaffle1Event, newRaffle2Event]);
         const raffleFactory = RaffleFactory.load(RAFFLE_FACTORY_ADDRESS)!;
         assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffle', '2');
         assert.fieldEquals(RAFFLE_FACTORY_ENTITY_TYPE, RAFFLE_FACTORY_ADDRESS, 'raffleCount', '2');

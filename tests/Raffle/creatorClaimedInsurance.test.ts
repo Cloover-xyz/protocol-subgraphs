@@ -6,7 +6,7 @@ import {
     afterEach,
     beforeEach,
 } from 'matchstick-as/assembly/index';
-import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
+import { createNewRaffleEvent, handleNewRaffles } from '../utils/events/raffleFactory';
 import { RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
@@ -27,14 +27,14 @@ import {
 } from '../utils/events/nftWhitelist';
 import {
     createCreatorClaimedEvent,
-    createCreatorClaimedInsuranceEvent,
+    createCreatorClaimedRefundEvent,
     createTicketsPurchasedEvent,
     handeTicketsPurchases,
 } from '../utils/events/raffle';
-import { handleCreatorClaimedInsurance } from '../../src/mapping/raffle';
+import { handleCreatorClaimedRefund } from '../../src/mapping/raffle';
 import { Raffle } from '../../generated/schema';
 
-describe('Raffle - CreatorClaimedInsurance', () => {
+describe('Raffle - CreatorClaimedRefund', () => {
     beforeEach(() => {
         const addUSDCEvent = createAddedTokenToWhitelistEvent(USDC);
         handleAddedTokenToWhitelists([addUSDCEvent]);
@@ -49,7 +49,7 @@ describe('Raffle - CreatorClaimedInsurance', () => {
             BORED_APE.address
         );
         const newRaffleEvent = createNewRaffleEvent(raffleConfig);
-        handeNewRaffles([newRaffleEvent]);
+        handleNewRaffles([newRaffleEvent]);
 
         const newPurchaseTicket_1 = createTicketsPurchasedEvent(
             RAFFLE_1_ADDRESS,
@@ -70,10 +70,9 @@ describe('Raffle - CreatorClaimedInsurance', () => {
     });
 
     test('should handle creator claimed insurance event', () => {
-        const newCreatorClaimedInsuranceEvent =
-            createCreatorClaimedInsuranceEvent(RAFFLE_1_ADDRESS);
+        const newCreatorClaimedRefundEvent = createCreatorClaimedRefundEvent(RAFFLE_1_ADDRESS);
 
-        handleCreatorClaimedInsurance(newCreatorClaimedInsuranceEvent);
+        handleCreatorClaimedRefund(newCreatorClaimedRefundEvent);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'creatorClaimed', 'true');
         assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleRefunded', '1');
@@ -85,10 +84,9 @@ describe('Raffle - CreatorClaimedInsurance', () => {
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
 
-        const newCreatorClaimedInsuranceEvent =
-            createCreatorClaimedInsuranceEvent(RAFFLE_1_ADDRESS);
+        const newCreatorClaimedRefundEvent = createCreatorClaimedRefundEvent(RAFFLE_1_ADDRESS);
 
-        handleCreatorClaimedInsurance(newCreatorClaimedInsuranceEvent);
+        handleCreatorClaimedRefund(newCreatorClaimedRefundEvent);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'FINISHED');
     });

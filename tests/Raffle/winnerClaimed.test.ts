@@ -7,7 +7,7 @@ import {
     beforeEach,
 } from 'matchstick-as/assembly/index';
 
-import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
+import { createNewRaffleEvent, handleNewRaffles } from '../utils/events/raffleFactory';
 import { RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
@@ -49,7 +49,7 @@ describe('Raffle - WinnerClaimed', () => {
             BORED_APE.address
         );
         const newRaffleEvent = createNewRaffleEvent(raffleConfig);
-        handeNewRaffles([newRaffleEvent]);
+        handleNewRaffles([newRaffleEvent]);
 
         const newPurchaseTicket_1 = createTicketsPurchasedEvent(
             RAFFLE_1_ADDRESS,

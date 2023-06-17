@@ -1,16 +1,16 @@
 import { Address, ethereum } from '@graphprotocol/graph-ts';
 
-import { handeNewRaffle } from '../../../src/mapping/raffleFactory';
+import { handleNewRaffle } from '../../../src/mapping/raffleFactory';
 
 import { createMockedFunction, newMockEvent } from 'matchstick-as';
 
 import { RAFFLE_FACTORY_ADDRESS } from '../constants';
-import { NewRaffle } from '../../../generated/RaffleFactory/RaffleFactory';
+import { NewRaffle } from '../../../generated/RaffleFactory/RaffleFactoryEvents';
 import { RaffleConfig } from '../raffleConfig';
 
-export function handeNewRaffles(events: NewRaffle[]): void {
+export function handleNewRaffles(events: NewRaffle[]): void {
     events.forEach((event) => {
-        handeNewRaffle(event);
+        handleNewRaffle(event);
     });
 }
 
@@ -37,8 +37,8 @@ export function createNewRaffleEvent(raffle: RaffleConfig): NewRaffle {
     tupleArray.push(ethereum.Value.fromUnsignedBigInt(raffle.ticketPrice));
     tupleArray.push(ethereum.Value.fromUnsignedBigInt(raffle.salesDuration));
     tupleArray.push(ethereum.Value.fromI32(raffle.maxTicketSupply));
-    tupleArray.push(ethereum.Value.fromI32(raffle.maxTicketsAllowedToPurchasePerWallet));
-    tupleArray.push(ethereum.Value.fromI32(raffle.ticketSalesInsurance));
+    tupleArray.push(ethereum.Value.fromI32(raffle.maxTicketPerWallet));
+    tupleArray.push(ethereum.Value.fromI32(raffle.minTicketThreshold));
     tupleArray.push(ethereum.Value.fromI32(raffle.protocolFeeRate));
     tupleArray.push(ethereum.Value.fromI32(raffle.insuranceRate));
     tupleArray.push(ethereum.Value.fromI32(raffle.royaltiesRate));

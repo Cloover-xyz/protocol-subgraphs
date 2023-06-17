@@ -1,7 +1,7 @@
 import { Address, log } from '@graphprotocol/graph-ts';
 import {
     CreatorClaimed,
-    CreatorClaimedInsurance,
+    CreatorClaimedRefund,
     RaffleCancelled,
     RaffleStatus,
     TicketsPurchased,
@@ -33,6 +33,7 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
 
 export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
     const raffle = getRaffle(event.address);
+    raffle.chainlinkVRFTxHash = event.transaction.hash;
     raffle.winningTicketNumber = event.params.winningTicket;
     raffle.status = 'DRAWN';
     const participants = raffle.participants;
@@ -68,7 +69,7 @@ export function handleWinnerClaimed(event: WinnerClaimed): void {
 export function handleCreatorClaimed(event: CreatorClaimed): void {
     const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
-    raffle.creatorAmountEarned = event.params.creatorAmountEarned;
+    raffle.creatorAmountEarned = event.params.creatorAmountReceived;
     raffle.treasuryAmountEarned = event.params.protocolFeeAmount;
     raffle.royaltiesAmountSent = event.params.royaltiesAmount;
     if (raffle.winnerClaimed) {
@@ -95,7 +96,7 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
     raffle.save();
 }
 
-export function handleCreatorClaimedInsurance(event: CreatorClaimedInsurance): void {
+export function handleCreatorClaimedRefund(event: CreatorClaimedRefund): void {
     const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
     if (raffle.participantsAmountRefunded == raffle.participants.length) {

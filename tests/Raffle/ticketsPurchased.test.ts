@@ -7,7 +7,7 @@ import {
     beforeEach,
 } from 'matchstick-as/assembly/index';
 
-import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
+import { createNewRaffleEvent, handleNewRaffles } from '../utils/events/raffleFactory';
 import { PARTICIPANT_ENTITY_TYPE, RAFFLE_ENTITY_TYPE, USER_ENTITY_TYPE } from '../utils/entities';
 import { Raffle, Participant } from '../../generated/schema';
 import { ethereum } from '@graphprotocol/graph-ts';
@@ -45,7 +45,7 @@ describe('Raffle - Tickets Purchased', () => {
             BORED_APE.address
         );
         const newRaffleEvent = createNewRaffleEvent(raffleConfig);
-        handeNewRaffles([newRaffleEvent]);
+        handleNewRaffles([newRaffleEvent]);
     });
     afterEach(() => {
         clearStore();

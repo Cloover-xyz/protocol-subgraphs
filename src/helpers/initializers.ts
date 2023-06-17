@@ -24,7 +24,7 @@ import {
     getUserId,
 } from '../utils/id-generation';
 import { zeroBI } from '../utils/converters';
-import { NewRaffleRaffleParamsStruct } from '../../generated/RaffleFactory/RaffleFactory';
+import { NewRaffleRaffleParamsStruct } from '../../generated/RaffleFactory/RaffleFactoryEvents';
 
 export function getOrInitTokenWhitelist(tokenWhitelistAddress: Address): TokenWhitelist {
     let tokenWhitelistId = getTokenWhitelistId(tokenWhitelistAddress);
@@ -101,9 +101,9 @@ export function initRaffle(
     raffle.raffleFactory = factoryAddress.toHexString();
     raffle.nftId = params.nftId;
     raffle.maxTicketSupply = params.maxTicketSupply;
-    raffle.salesDuration = params.salesDuration;
-    raffle.maxTicketsAllowedToPurchasePerWallet = params.maxTicketsAllowedToPurchasePerWallet;
-    raffle.ticketSalesInsurance = params.ticketSalesInsurance;
+    raffle.salesDuration = params.endTicketSales;
+    raffle.maxTicketPerWallet = params.maxTicketPerWallet;
+    raffle.minTicketThreshold = params.minTicketThreshold;
     raffle.ticketPrice = params.ticketPrice;
     raffle.protocolFeeRate = params.protocolFeeRate;
     raffle.insuranceRate = params.insuranceRate;

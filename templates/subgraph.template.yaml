@@ -60,7 +60,7 @@ dataSources:
     source:
       address: '{{RaffleFactory}}'
       startBlock:  {{StartBlock}}
-      abi: RaffleFactory
+      abi: RaffleFactoryEvents
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -77,6 +77,8 @@ dataSources:
           file: ./abis/RaffleContract.json
         - name: RaffleEvents
           file: ./abis/RaffleEvents.json
+        - name: RaffleFactoryEvents
+          file: ./abis/RaffleFactoryEvents.json
       eventHandlers:
         - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
           handler: handleNewRaffle
@@ -106,8 +108,8 @@ templates:
           handler: handleWinnerClaimed
         - event: CreatorClaimed(uint256,uint256,uint256)
           handler: handleCreatorClaimed
-        - event: CreatorClaimedInsurance()
-          handler: handleCreatorClaimedInsurance
+        - event: CreatorClaimedRefund()
+          handler: handleCreatorClaimedRefund
         - event: UserClaimedRefund(indexed address,uint256)
           handler: handleUserClaimedRefund
         - event: RaffleCancelled()

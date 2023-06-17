@@ -78,9 +78,9 @@ type Raffle @entity{
   # total ticket on sales
   maxTicketSupply: Int!
   # max amount of tickets per user
-  maxTicketsAllowedToPurchasePerWallet: Int!
+  maxTicketPerWallet: Int!
   # min amount of tickets under insurance
-  ticketSalesInsurance: Int!
+  minTicketThreshold: Int!
   # protocol fee rate
   protocolFeeRate: Int!
   # insurance rate applied
@@ -113,6 +113,7 @@ type Raffle @entity{
 
   participants: [Participant!]! @derivedFrom(field: "raffle")
 
+  chainlinkVRFTxHash: Bytes
 }
 
 type Participant @entity{

@@ -5,7 +5,7 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "creatorAmountEarned",
+                "name": "creatorAmountReceived",
                 "type": "uint256"
             },
             {
@@ -27,7 +27,7 @@
     {
         "anonymous": false,
         "inputs": [],
-        "name": "CreatorClaimedInsurance",
+        "name": "CreatorClaimedRefund",
         "type": "event"
     },
     {

@@ -7,8 +7,8 @@ export class RaffleConfig {
     salesDuration: BigInt = BigInt.fromI32(86400);
     endTicketSales: BigInt = BigInt.fromI32(864000);
     maxTicketSupply: i32 = 10_000;
-    maxTicketsAllowedToPurchasePerWallet: i32 = 10;
-    ticketSalesInsurance: i32 = 1_000;
+    maxTicketPerWallet: i32 = 10;
+    minTicketThreshold: i32 = 1_000;
     protocolFeeRate: i32 = 250;
     insuranceRate: i32 = 500;
     royaltiesRate: i32 = 0;

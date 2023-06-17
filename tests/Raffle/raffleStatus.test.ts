@@ -7,7 +7,7 @@ import {
     beforeEach,
 } from 'matchstick-as/assembly/index';
 
-import { createNewRaffleEvent, handeNewRaffles } from '../utils/events/raffleFactory';
+import { createNewRaffleEvent, handleNewRaffles } from '../utils/events/raffleFactory';
 
 import { RaffleConfig } from '../utils/raffleConfig';
 import { BORED_APE, CREATOR_ADDRESS, RAFFLE_1_ADDRESS, Status, USDC } from '../utils/constants';
@@ -38,7 +38,7 @@ describe('Raffle - RaffleStatus', () => {
             BORED_APE.address
         );
         const newRaffleEvent = createNewRaffleEvent(raffleConfig);
-        handeNewRaffles([newRaffleEvent]);
+        handleNewRaffles([newRaffleEvent]);
     });
     afterEach(() => {
         clearStore();

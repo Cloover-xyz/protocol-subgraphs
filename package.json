@@ -5,8 +5,10 @@
     "main": "index.js",
     "scripts": {
         "prepare:subgraph": "mustache ./config/${NETWORK}.json ./templates/subgraph.template.yaml > subgraph.yaml",
-        "subgraph:codegen": "cross-env && pnpm prepare:subgraph && graph codegen",
-        "subgraph:build": "cross-env && pnpm prepare:subgraph && graph codegen && graph build",
+        "subgraph:codegen": "cross-env pnpm prepare:subgraph && graph codegen",
+        "subgraph:build": "cross-env pnpm prepare:subgraph && graph codegen && graph build",
+        "subgraph:deploy:hosted": "graph auth --studio $ACCESS_TOKEN && graph deploy --studio ${SLUG}",
+        "deploy:hosted:mainnet-sepolia": "NETWORK=sepolia env-cmd pnpm prepare:subgraph && SLUG=cloover-v1-sepolia env-cmd pnpm subgraph:deploy:hosted",
         "test": "graph test",
         "postinstall": "husky install"
     },
