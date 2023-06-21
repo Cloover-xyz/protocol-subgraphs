@@ -130,13 +130,13 @@ export function handleRaffleStatus(event: RaffleStatus): void {
             raffle.status = 'DRAWN';
             break;
         case 3:
-            raffle.status = 'INSURANCE';
+            raffle.status = 'REFUNDABLE';
             break;
         case 4:
             raffle.status = 'CANCELLED';
             break;
         default:
-            raffle.status = 'DEFAULT';
+            raffle.status = 'OPEN';
             break;
     }
     raffle.save();

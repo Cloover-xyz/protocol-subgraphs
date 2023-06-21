@@ -2,6 +2,6 @@
     "network": "sepolia",
     "TokenWhitelist": "0xa44080a32b04755e71a8b5eca367c1430aa5530c",
     "NFTWhitelist": "0xcaccc829ff7415f5830b499ccf07e12a72024176",
-    "RaffleFactory": "0xd84fdae25eee34ddacd0f8229b02d9f332278f91",
+    "RaffleFactory": "0x5fc9f180DEE73270D7251CB3C261f4AF518271c6",
     "StartBlock": 3710596
 }

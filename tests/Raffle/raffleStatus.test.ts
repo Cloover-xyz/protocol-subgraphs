@@ -53,10 +53,10 @@ describe('Raffle - RaffleStatus', () => {
         handleRaffleStatus(newStatusEvent);
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DRAWN');
     });
-    test('should move raffle status to INSURANCE', () => {
-        const newStatusEvent = createRaffleStatusEvent(RAFFLE_1_ADDRESS, Status.INSURANCE);
+    test('should move raffle status to REFUNDABLE', () => {
+        const newStatusEvent = createRaffleStatusEvent(RAFFLE_1_ADDRESS, Status.REFUNDABLE);
         handleRaffleStatus(newStatusEvent);
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'INSURANCE');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'REFUNDABLE');
     });
     test('should move raffle status to CANCELLED', () => {
         const newStatusEvent = createRaffleStatusEvent(RAFFLE_1_ADDRESS, Status.CANCELLED);

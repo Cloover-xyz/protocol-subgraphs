@@ -17,12 +17,6 @@ export function handleNewRaffles(events: NewRaffle[]): void {
 export function createNewRaffleEvent(raffle: RaffleConfig): NewRaffle {
     let newEvent = changetype<NewRaffle>(newMockEvent());
 
-    createMockedFunction(
-        Address.fromString(raffle.address),
-        'endTicketSales',
-        'endTicketSales():(uint64)'
-    ).returns([ethereum.Value.fromUnsignedBigInt(raffle.endTicketSales)]);
-
     newEvent.parameters = new Array();
     let raffleContractParam = new ethereum.EventParam(
         'raffleContract',
@@ -35,7 +29,7 @@ export function createNewRaffleEvent(raffle: RaffleConfig): NewRaffle {
     tupleArray.push(ethereum.Value.fromAddress(Address.fromString(raffle.nftContract)));
     tupleArray.push(ethereum.Value.fromUnsignedBigInt(raffle.nftId));
     tupleArray.push(ethereum.Value.fromUnsignedBigInt(raffle.ticketPrice));
-    tupleArray.push(ethereum.Value.fromUnsignedBigInt(raffle.salesDuration));
+    tupleArray.push(ethereum.Value.fromUnsignedBigInt(raffle.endTicketSales));
     tupleArray.push(ethereum.Value.fromI32(raffle.maxTicketSupply));
     tupleArray.push(ethereum.Value.fromI32(raffle.maxTicketPerWallet));
     tupleArray.push(ethereum.Value.fromI32(raffle.minTicketThreshold));

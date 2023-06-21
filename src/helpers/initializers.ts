@@ -1,4 +1,4 @@
-import { Address, log } from '@graphprotocol/graph-ts';
+import { Address, BigInt, log } from '@graphprotocol/graph-ts';
 
 import {
     NFT,
@@ -55,8 +55,22 @@ export function getOrInitToken(tokenAddress: Address): Token {
     if (!token) {
         token = new Token(tokenId);
         let ERC20Contract = IERC20Detailed.bind(tokenAddress);
-        token.symbol = ERC20Contract.symbol();
-        token.decimals = ERC20Contract.decimals();
+        const symbol = ERC20Contract.try_symbol();
+        if (!symbol.reverted) {
+            token.symbol = symbol.value;
+        } else {
+            log.error('Error in getting token symbol from contract: {}', [
+                tokenAddress.toHexString(),
+            ]);
+        }
+        const decimals = ERC20Contract.try_decimals();
+        if (!decimals.reverted) {
+            token.decimals = decimals.value;
+        } else {
+            log.error('Error in getting token decimals from contract: {}', [
+                tokenAddress.toHexString(),
+            ]);
+        }
         token.save();
     }
     return token;
@@ -87,7 +101,8 @@ export function getOrInitRaffleFactory(factoryAddress: Address): RaffleFactory {
 export function initRaffle(
     factoryAddress: Address,
     raffleAddress: Address,
-    params: NewRaffleRaffleParamsStruct
+    params: NewRaffleRaffleParamsStruct,
+    createAt: BigInt
 ): void {
     let raffleId = getRaffleId(raffleAddress);
     let raffle = Raffle.load(raffleId);
@@ -101,7 +116,8 @@ export function initRaffle(
     raffle.raffleFactory = factoryAddress.toHexString();
     raffle.nftId = params.nftId;
     raffle.maxTicketSupply = params.maxTicketSupply;
-    raffle.salesDuration = params.endTicketSales;
+    raffle.endTicketSales = params.endTicketSales;
+    raffle.salesDuration = params.endTicketSales.minus(createAt);
     raffle.maxTicketPerWallet = params.maxTicketPerWallet;
     raffle.minTicketThreshold = params.minTicketThreshold;
     raffle.ticketPrice = params.ticketPrice;
@@ -119,18 +135,19 @@ export function initRaffle(
     raffle.royaltiesAmountSent = zeroBI();
     raffle.participantsAmountRefunded = 0;
 
-    let raffleContract = RaffleContract.bind(raffleAddress);
-    raffle.endTicketSales = raffleContract.endTicketSales();
-
     let user = getOrInitUser(params.creator);
+
     user.overallCreatedRaffle = user.overallCreatedRaffle + 1;
     raffle.creator = user.id;
 
-    let token = getOrInitToken(params.purchaseCurrency);
-    raffle.token = token.id;
+    if (!params.isEthRaffle) {
+        let token = getOrInitToken(params.purchaseCurrency);
+        raffle.token = token.id;
+    }
 
     let nft = getOrInitNFT(params.nftContract);
     raffle.nft = nft.id;
+
     user.save();
     raffle.save();
 }

@@ -79,6 +79,10 @@ dataSources:
           file: ./abis/RaffleEvents.json
         - name: RaffleFactoryEvents
           file: ./abis/RaffleFactoryEvents.json
+        - name: IERC20Detailed
+          file: ./abis/helpers/IERC20Detailed.json
+        - name: IERC721
+          file: ./abis/helpers/IERC721.json
       eventHandlers:
         - event: NewRaffle(indexed address,(address,address,address,address,uint256,uint256,uint64,uint16,uint16,uint16,uint16,uint16,uint16,bool))
           handler: handleNewRaffle

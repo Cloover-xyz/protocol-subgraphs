@@ -31,9 +31,9 @@ export const BORED_APE = new NFTConfig(COLLECTION_1_ADDRESS, COLLECTION_1_CREATO
 export const DEGODS = new NFTConfig(COLLECTION_2_ADDRESS, COLLECTION_2_CREATOR);
 
 export enum Status {
-    DEFAULT,
+    OPEN,
     DRAWNING,
     DRAWN,
-    INSURANCE,
+    REFUNDABLE,
     CANCELLED,
 }

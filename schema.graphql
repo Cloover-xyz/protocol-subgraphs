@@ -64,7 +64,7 @@ type Raffle @entity{
   # address of the implementation contract
   implementationManager: String!
   # allow indexing by token
-  token: Token!
+  token: Token
   # allow indexing by nft
   nft: NFT!
   # id of the NFT
