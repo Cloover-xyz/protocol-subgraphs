@@ -10,6 +10,8 @@ import {
     WinningTicketDrawn,
 } from '../../generated/RaffleFactory/RaffleEvents';
 import { getOrInitParticipant, getOrInitUser, getRaffle } from '../helpers/initializers';
+import { store } from '@graphprotocol/graph-ts';
+import { Participant } from '../../generated/schema';
 
 export function handleTicketsPurchased(event: TicketsPurchased): void {
     const raffle = getRaffle(event.address);
@@ -36,9 +38,9 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
     raffle.chainlinkVRFTxHash = event.transaction.hash;
     raffle.winningTicketNumber = event.params.winningTicket;
     raffle.status = 'DRAWN';
-    const participants = raffle.participants;
-    for (let i = 0; i < participants.length; i++) {
-        const participantAddress = Address.fromString(participants[i].split('-')[1]);
+    const participantsArray: Participant[] = raffle.participants.load();
+    for (let i = 0; i < participantsArray.length; i++) {
+        const participantAddress = Address.fromString(participantsArray[i].id.split('-')[1]);
         const participant = getOrInitParticipant(event.address, participantAddress);
         const index = participant.numbers.indexOf(event.params.winningTicket);
         if (index != -1) {
@@ -81,7 +83,8 @@ export function handleCreatorClaimed(event: CreatorClaimed): void {
 export function handleUserClaimedRefund(event: UserClaimedRefund): void {
     const raffle = getRaffle(event.address);
     raffle.participantsAmountRefunded = raffle.participantsAmountRefunded + 1;
-    if (raffle.participantsAmountRefunded == raffle.participants.length && raffle.creatorClaimed) {
+    const participantsArray = raffle.participants.load();
+    if (raffle.participantsAmountRefunded == participantsArray.length && raffle.creatorClaimed) {
         raffle.status = 'FINISHED';
     }
     const participant = getOrInitParticipant(event.address, event.params.user);
@@ -99,7 +102,8 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
 export function handleCreatorClaimedRefund(event: CreatorClaimedRefund): void {
     const raffle = getRaffle(event.address);
     raffle.creatorClaimed = true;
-    if (raffle.participantsAmountRefunded == raffle.participants.length) {
+    const participantsArray = raffle.participants.load();
+    if (raffle.participantsAmountRefunded == participantsArray.length) {
         raffle.status = 'FINISHED';
     }
     const creator = getOrInitUser(Address.fromString(raffle.creator));
@@ -124,7 +128,7 @@ export function handleRaffleStatus(event: RaffleStatus): void {
     const raffle = getRaffle(event.address);
     switch (event.params.status) {
         case 1:
-            raffle.status = 'DRAWNING';
+            raffle.status = 'DRAWING';
             break;
         case 2:
             raffle.status = 'DRAWN';

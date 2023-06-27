@@ -71,7 +71,7 @@
     },
     {
         "inputs": [],
-        "name": "SALES_EXCEED_INSURANCE_LIMIT",
+        "name": "SALES_EXCEED_MIN_THRESHOLD_LIMIT",
         "type": "error"
     },
     {

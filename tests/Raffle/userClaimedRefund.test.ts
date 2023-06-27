@@ -119,7 +119,7 @@ describe('Raffle - UserClaimedRefund', () => {
         );
         handleUserClaimedRefund(user1ClaimEvent);
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'OPEN');
 
         const user2ClaimEvent = createUserClaimedRefundEvent(
             RAFFLE_1_ADDRESS,

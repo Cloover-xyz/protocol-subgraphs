@@ -32,7 +32,7 @@ export const DEGODS = new NFTConfig(COLLECTION_2_ADDRESS, COLLECTION_2_CREATOR);
 
 export enum Status {
     OPEN,
-    DRAWNING,
+    DRAWING,
     DRAWN,
     REFUNDABLE,
     CANCELLED,

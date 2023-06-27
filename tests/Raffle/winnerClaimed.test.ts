@@ -79,7 +79,7 @@ describe('Raffle - WinnerClaimed', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;
         raffle.creatorClaimed = true;
         raffle.save();
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'OPEN');
 
         const newWinnerClaimed = createWinnerClaimedEvent(RAFFLE_1_ADDRESS, PARTICIPANT_1_ADDRESS);
         handleWinnerClaimed(newWinnerClaimed);

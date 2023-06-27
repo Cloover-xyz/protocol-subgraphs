@@ -46,10 +46,10 @@ type RaffleFactory @entity{
 
 
 enum RaffleStatus {
-  DEFAULT,
-  DRAWNING,
+  OPEN,
+  DRAWING,
   DRAWN,
-  INSURANCE,
+  REFUNDABLE,
   CANCELLED,
   FINISHED
 }
@@ -57,6 +57,8 @@ enum RaffleStatus {
 type Raffle @entity{
   # contracts address
   id: ID!
+  # creation timestamp
+  createAt: BigInt!
 
   # --- Config ---
   # allow indexing by raffleCreated by this user

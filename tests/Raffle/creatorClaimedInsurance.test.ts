@@ -82,7 +82,7 @@ describe('Raffle - CreatorClaimedRefund', () => {
         raffle.participantsAmountRefunded = 2;
         raffle.save();
 
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'OPEN');
 
         const newCreatorClaimedRefundEvent = createCreatorClaimedRefundEvent(RAFFLE_1_ADDRESS);
 

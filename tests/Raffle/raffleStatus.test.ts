@@ -43,10 +43,10 @@ describe('Raffle - RaffleStatus', () => {
     afterEach(() => {
         clearStore();
     });
-    test('should move raffle status to DRAWNING', () => {
-        const newStatusEvent = createRaffleStatusEvent(RAFFLE_1_ADDRESS, Status.DRAWNING);
+    test('should move raffle status to DRAWING', () => {
+        const newStatusEvent = createRaffleStatusEvent(RAFFLE_1_ADDRESS, Status.DRAWING);
         handleRaffleStatus(newStatusEvent);
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DRAWNING');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DRAWING');
     });
     test('should move raffle status to DRAWN', () => {
         const newStatusEvent = createRaffleStatusEvent(RAFFLE_1_ADDRESS, Status.DRAWN);

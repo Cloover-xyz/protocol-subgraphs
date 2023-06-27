@@ -104,7 +104,7 @@ describe('Raffle - CreatorClaimed', () => {
         const raffle = Raffle.load(RAFFLE_1_ADDRESS)!;
         raffle.winnerClaimed = true;
         raffle.save();
-        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'DEFAULT');
+        assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'status', 'OPEN');
 
         let newWinnerClaimed = createCreatorClaimedEvent(
             RAFFLE_1_ADDRESS,
