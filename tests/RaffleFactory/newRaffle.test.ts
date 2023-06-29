@@ -14,7 +14,7 @@ import {
     USER_ENTITY_TYPE,
 } from '../utils/entities';
 import { RaffleFactory, Raffle } from '../../generated/schema';
-import { ethereum } from '@graphprotocol/graph-ts';
+
 import { RaffleConfig } from '../utils/raffleConfig';
 import {
     BORED_APE,

@@ -22,7 +22,7 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
         participant.numberOfTicketsPurchased + event.params.nbOfTicketsPurchased;
     const participantsNumber = participant.numbers;
     for (let i = 0; i < event.params.nbOfTicketsPurchased; i++) {
-        participantsNumber.push(event.params.firstTicketnumber + i);
+        participantsNumber.push(event.params.firstTicketnumber + i + 1);
     }
     participant.numbers = participantsNumber;
 
