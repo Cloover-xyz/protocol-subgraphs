@@ -74,13 +74,13 @@ describe('Raffle - WinningTicketDrawn', () => {
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningTicketNumber', '10');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallRaffleWins', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallRafflesWon', '1');
         assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleEnded', '1');
         newWinningTicket = createWinningTicketDrawnEvent(RAFFLE_1_ADDRESS, 1);
         handleWinningTicketDrawn(newWinningTicket);
 
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winningTicketNumber', '1');
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallRaffleWins', '2');
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallRafflesWon', '2');
         assert.fieldEquals(RAFFLE_ENTITY_TYPE, RAFFLE_1_ADDRESS, 'winner', PARTICIPANT_1_ADDRESS);
         assert.fieldEquals(USER_ENTITY_TYPE, CREATOR_ADDRESS, 'overallCreatedRaffleEnded', '2');
     });

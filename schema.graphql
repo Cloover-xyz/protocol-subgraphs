@@ -99,6 +99,8 @@ type Raffle @entity{
   status: RaffleStatus!
   # amount of tickets sold
   currentTicketSold: Int!
+  # true if ticket sold is under the minTicketThreshold
+  isTicketsSoldUnderMinThreshold: Boolean!
   # winner of the raffle
   winner: User
   # winning numbers
@@ -106,6 +108,7 @@ type Raffle @entity{
   # check if the winner has claimed his prize
   winnerClaimed: Boolean!
 
+  # check if the creator has claimed his prize or refund
   creatorClaimed: Boolean!
   creatorAmountEarned: BigInt!
   treasuryAmountEarned: BigInt!
@@ -135,6 +138,9 @@ type Participant @entity{
 type User @entity{
   # user address
   id: ID!
+  
+  # first action timestamp
+  joinAt: BigInt!
 
   #total amount of raffles created
   overallCreatedRaffle: Int
@@ -149,9 +155,11 @@ type User @entity{
   #total amount of raffles participated refunded
   overallParticipationsRefunded: Int
   #total amount of tickets purchased
-  overallTicketPurchase: Int
+  overallTicketsPurchased: Int
+  #total amount of tickets sold
+  overallTicketsSold: Int
   #total amount of raffles won
-  overallRaffleWins: Int
+  overallRafflesWon: Int
 
   # allow indexing by raffleCreated
   rafflesCreated: [Raffle!]! @derivedFrom(field: "creator")

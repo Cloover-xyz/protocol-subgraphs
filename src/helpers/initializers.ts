@@ -102,7 +102,7 @@ export function initRaffle(
     factoryAddress: Address,
     raffleAddress: Address,
     params: NewRaffleRaffleParamsStruct,
-    createAt: BigInt
+    blockTimestamp: BigInt
 ): void {
     let raffleId = getRaffleId(raffleAddress);
     let raffle = Raffle.load(raffleId);
@@ -112,13 +112,13 @@ export function initRaffle(
     }
     raffle = new Raffle(raffleId);
     raffle.status = 'OPEN';
-    raffle.createAt = createAt;
+    raffle.createAt = blockTimestamp;
     raffle.implementationManager = params.implementationManager.toHexString();
     raffle.raffleFactory = factoryAddress.toHexString();
     raffle.nftId = params.nftId;
     raffle.maxTicketSupply = params.maxTicketSupply;
     raffle.endTicketSales = params.endTicketSales;
-    raffle.salesDuration = params.endTicketSales.minus(createAt);
+    raffle.salesDuration = params.endTicketSales.minus(blockTimestamp);
     raffle.maxTicketPerWallet = params.maxTicketPerWallet;
     raffle.minTicketThreshold = params.minTicketThreshold;
     raffle.ticketPrice = params.ticketPrice;
@@ -127,6 +127,7 @@ export function initRaffle(
     raffle.royaltiesRate = params.royaltiesRate;
     raffle.isETH = params.isEthRaffle;
 
+    raffle.isTicketsSoldUnderMinThreshold = params.minTicketThreshold > 0 ? true : false;
     raffle.currentTicketSold = 0;
     raffle.winningTicketNumber = 0;
     raffle.winnerClaimed = false;
@@ -136,7 +137,7 @@ export function initRaffle(
     raffle.royaltiesAmountSent = zeroBI();
     raffle.participantsAmountRefunded = 0;
 
-    let user = getOrInitUser(params.creator);
+    let user = getOrInitUser(params.creator, blockTimestamp);
 
     user.overallCreatedRaffle = user.overallCreatedRaffle + 1;
     raffle.creator = user.id;
@@ -163,21 +164,26 @@ export function getRaffle(raffleAddress: Address): Raffle {
     return raffle;
 }
 
-export function getOrInitUser(userAddress: Address): User {
+export function getOrInitUser(userAddress: Address, blockTimestamp: BigInt): User {
     let userId = getUserId(userAddress);
     let user = User.load(userId);
     if (!user) {
         user = new User(userId);
+        user.joinAt = blockTimestamp;
         user.save();
     }
     return user;
 }
 
-export function getOrInitParticipant(raffleAddress: Address, userAddress: Address): Participant {
+export function getOrInitParticipant(
+    raffleAddress: Address,
+    userAddress: Address,
+    blockTimestamp: BigInt
+): Participant {
     let participantId = getParticipantId(raffleAddress, userAddress);
     let participant = Participant.load(participantId);
     if (!participant) {
-        const user = getOrInitUser(userAddress);
+        const user = getOrInitUser(userAddress, blockTimestamp);
         user.overallRaffleParticipation = user.overallRaffleParticipation + 1;
         participant = new Participant(participantId);
         participant.numberOfTicketsPurchased = 0;

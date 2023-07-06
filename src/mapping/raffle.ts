@@ -17,7 +17,12 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
     const raffle = getRaffle(event.address);
 
     raffle.currentTicketSold = raffle.currentTicketSold + event.params.nbOfTicketsPurchased;
-    const participant = getOrInitParticipant(event.address, event.params.user);
+    raffle.isTicketsSoldUnderMinThreshold = raffle.currentTicketSold < raffle.minTicketThreshold;
+    const participant = getOrInitParticipant(
+        event.address,
+        event.params.user,
+        event.block.timestamp
+    );
     participant.numberOfTicketsPurchased =
         participant.numberOfTicketsPurchased + event.params.nbOfTicketsPurchased;
     const participantsNumber = participant.numbers;
@@ -26,8 +31,8 @@ export function handleTicketsPurchased(event: TicketsPurchased): void {
     }
     participant.numbers = participantsNumber;
 
-    const user = getOrInitUser(event.params.user);
-    user.overallTicketPurchase = user.overallTicketPurchase + event.params.nbOfTicketsPurchased;
+    const user = getOrInitUser(event.params.user, event.block.timestamp);
+    user.overallTicketsPurchased = user.overallTicketsPurchased + event.params.nbOfTicketsPurchased;
     user.save();
     participant.save();
     raffle.save();
@@ -41,18 +46,23 @@ export function handleWinningTicketDrawn(event: WinningTicketDrawn): void {
     const participantsArray: Participant[] = raffle.participants.load();
     for (let i = 0; i < participantsArray.length; i++) {
         const participantAddress = Address.fromString(participantsArray[i].id.split('-')[1]);
-        const participant = getOrInitParticipant(event.address, participantAddress);
+        const participant = getOrInitParticipant(
+            event.address,
+            participantAddress,
+            event.block.timestamp
+        );
         const index = participant.numbers.indexOf(event.params.winningTicket);
         if (index != -1) {
             raffle.winner = participant.user;
             break;
         }
     }
-    const creator = getOrInitUser(Address.fromString(raffle.creator));
+    const creator = getOrInitUser(Address.fromString(raffle.creator), event.block.timestamp);
     creator.overallCreatedRaffleEnded = creator.overallCreatedRaffleEnded + 1;
+    creator.overallTicketsSold = creator.overallTicketsSold + raffle.currentTicketSold;
 
-    const user = getOrInitUser(Address.fromString(raffle.winner!));
-    user.overallRaffleWins = user.overallRaffleWins + 1;
+    const user = getOrInitUser(Address.fromString(raffle.winner!), event.block.timestamp);
+    user.overallRafflesWon = user.overallRafflesWon + 1;
 
     creator.save();
     user.save();
@@ -87,11 +97,15 @@ export function handleUserClaimedRefund(event: UserClaimedRefund): void {
     if (raffle.participantsAmountRefunded == participantsArray.length && raffle.creatorClaimed) {
         raffle.status = 'FINISHED';
     }
-    const participant = getOrInitParticipant(event.address, event.params.user);
+    const participant = getOrInitParticipant(
+        event.address,
+        event.params.user,
+        event.block.timestamp
+    );
     participant.claimedRefund = true;
     participant.refundAmount = event.params.amountReceived;
 
-    const user = getOrInitUser(event.params.user);
+    const user = getOrInitUser(event.params.user, event.block.timestamp);
     user.overallParticipationsRefunded = user.overallParticipationsRefunded + 1;
 
     user.save();
@@ -106,7 +120,7 @@ export function handleCreatorClaimedRefund(event: CreatorClaimedRefund): void {
     if (raffle.participantsAmountRefunded == participantsArray.length) {
         raffle.status = 'FINISHED';
     }
-    const creator = getOrInitUser(Address.fromString(raffle.creator));
+    const creator = getOrInitUser(Address.fromString(raffle.creator), event.block.timestamp);
     creator.overallCreatedRaffleRefunded = creator.overallCreatedRaffleRefunded + 1;
 
     creator.save();
@@ -117,7 +131,7 @@ export function handleRaffleCancelled(event: RaffleCancelled): void {
     const raffle = getRaffle(event.address);
     raffle.status = 'CANCELLED';
 
-    const creator = getOrInitUser(Address.fromString(raffle.creator));
+    const creator = getOrInitUser(Address.fromString(raffle.creator), event.block.timestamp);
     creator.overallCreatedRaffleCancelled = creator.overallCreatedRaffleCancelled + 1;
 
     creator.save();

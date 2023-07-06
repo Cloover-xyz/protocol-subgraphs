@@ -71,7 +71,7 @@ describe('Raffle - Tickets Purchased', () => {
             'overallRaffleParticipation',
             '1'
         );
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketPurchase', '1');
+        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketsPurchased', '1');
 
         const participantId = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
         const participant = Participant.load(participantId)!;
@@ -105,7 +105,12 @@ describe('Raffle - Tickets Purchased', () => {
             'overallRaffleParticipation',
             '1'
         );
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketPurchase', '10');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'overallTicketsPurchased',
+            '10'
+        );
         const participantId = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
         const participant = Participant.load(participantId)!;
         assert.equals(
@@ -154,7 +159,12 @@ describe('Raffle - Tickets Purchased', () => {
             'overallRaffleParticipation',
             '1'
         );
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_1_ADDRESS, 'overallTicketPurchase', '10');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_1_ADDRESS,
+            'overallTicketsPurchased',
+            '10'
+        );
 
         assert.fieldEquals(
             USER_ENTITY_TYPE,
@@ -162,7 +172,12 @@ describe('Raffle - Tickets Purchased', () => {
             'overallRaffleParticipation',
             '1'
         );
-        assert.fieldEquals(USER_ENTITY_TYPE, PARTICIPANT_2_ADDRESS, 'overallTicketPurchase', '10');
+        assert.fieldEquals(
+            USER_ENTITY_TYPE,
+            PARTICIPANT_2_ADDRESS,
+            'overallTicketsPurchased',
+            '10'
+        );
 
         const participant_1_Id = `${RAFFLE_1_ADDRESS}-${PARTICIPANT_1_ADDRESS}`;
         const participant_1 = Participant.load(participant_1_Id)!;
