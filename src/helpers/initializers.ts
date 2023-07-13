@@ -81,7 +81,7 @@ export function getOrInitNFT(nftCollectionAddress: Address): NFT {
     let nft = NFT.load(nftId);
     if (!nft) {
         nft = new NFT(nftId);
-        nft.creator = '';
+        nft.royaltiesRecipent = '';
         nft.save();
     }
     return nft;

@@ -30,8 +30,8 @@ type NFTWhitelist @entity{
 type NFT @entity(immutable: true) {
   # collection address
   id: ID!
-  # address of the collection creator
-  creator: String!
+  # address that receive the royalties
+  royaltiesRecipent: String!
 }
 
 type RaffleFactory @entity{

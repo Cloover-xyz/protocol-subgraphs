@@ -94,6 +94,11 @@
     },
     {
         "inputs": [],
+        "name": "ROYALTIES_NOT_POSSIBLE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
         "name": "TOKEN_NOT_WHITELISTED",
         "type": "error"
     },
