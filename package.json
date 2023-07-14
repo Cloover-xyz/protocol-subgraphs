@@ -11,6 +11,7 @@
         "deploy:hosted:mainnet-sepolia": "NETWORK=sepolia env-cmd pnpm prepare:subgraph && SLUG=cloover-v1-sepolia env-cmd pnpm subgraph:deploy:studio",
         "subgraph:deploy:studio": "graph auth --studio $ACCESS_TOKEN_STUDIO && graph deploy --studio ${SLUG}",
         "deploy:hosted:polygon": "NETWORK=polygon env-cmd pnpm prepare:subgraph && SLUG=cloover-xyz/cloover-v1-polygon env-cmd pnpm subgraph:deploy:hosted",
+        "deploy:hosted:mainnet": "NETWORK=mainnet env-cmd pnpm prepare:subgraph && SLUG=cloover-xyz/cloover-v1-mainnet env-cmd pnpm subgraph:deploy:hosted",
         "postinstall": "husky install"
     },
     "keywords": [],

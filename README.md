@@ -11,16 +11,16 @@ The Cloover Protocol subgraphs index data from the protocol smart contracts, and
 ## Active deployments
 
 ### Production networks
-
+- [Polygon](https://thegraph.com/hosted-service/subgraph/cloover-xyz/cloover-v1-polygon)
 
 ### Test networks
-
+- [Sepolia](https://thegraph.com/studio/subgraph/cloover-v1-sepolia/)
 
 --- 
 
 ## Usage
 
-Subgraphs can be queried directly from the graph explorer, or from [another application](https://thegraph.com/docs/en/developer/querying-from-your-app/). The following section gives common queries for Aave protocol data.
+Subgraphs can be queried directly from the graph explorer, or from [another application](https://thegraph.com/docs/en/developer/querying-from-your-app/). The following section gives common queries for Cloover protocol data.
 
 ### Helpful Queries
 
@@ -46,6 +46,6 @@ pnpm run subgraph:codegen
 pnpm run subgraph:build
 
 # now you're able to deploy to thegraph hosted service with one of the deploy commands:
-pnpm run deploy:hosted:mainnet
+pnpm run deploy:hosted:polygon
 
 ```
