@@ -20,18 +20,18 @@ type Token @entity(immutable: true) {
 type NFTWhitelist @entity{
   # contracts address
   id: ID!
-  # amount of tokens whitelisted
+  # amount of nft collection whitelisted
   collectionCount: BigInt!
 
-  # allow indexing by tokens
+  # allow indexing by nfts
   nfts: [NFT!]!
 }
 
 type NFT @entity(immutable: true) {
   # collection address
   id: ID!
-  # address of the collection creator
-  creator: String!
+  # address that receive the royalties
+  royaltiesRecipent: String!
 }
 
 type RaffleFactory @entity{
@@ -46,10 +46,10 @@ type RaffleFactory @entity{
 
 
 enum RaffleStatus {
-  DEFAULT,
-  DRAWNING,
+  OPEN,
+  DRAWING,
   DRAWN,
-  INSURANCE,
+  REFUNDABLE,
   CANCELLED,
   FINISHED
 }
@@ -57,6 +57,8 @@ enum RaffleStatus {
 type Raffle @entity{
   # contracts address
   id: ID!
+  # creation timestamp
+  createAt: BigInt!
 
   # --- Config ---
   # allow indexing by raffleCreated by this user
@@ -64,7 +66,7 @@ type Raffle @entity{
   # address of the implementation contract
   implementationManager: String!
   # allow indexing by token
-  token: Token!
+  token: Token
   # allow indexing by nft
   nft: NFT!
   # id of the NFT
@@ -72,15 +74,15 @@ type Raffle @entity{
   # price of the ticket
   ticketPrice: BigInt!
   # duration of the ticket sales
-  ticketSalesDuration: BigInt!
-  # total ticket on sales
-  maxTotalSupply: Int!
-  # max amount of tickets per user
-  maxTicketAllowedToPurchase: Int!
-  # min amount of tickets under insurance
-  ticketSalesInsurance: Int!
+  salesDuration: BigInt!
   # end of the ticket sales in timestamp
   endTicketSales: BigInt!
+  # total ticket on sales
+  maxTicketSupply: Int!
+  # max amount of tickets per user
+  maxTicketPerWallet: Int!
+  # min amount of tickets under insurance
+  minTicketThreshold: Int!
   # protocol fee rate
   protocolFeeRate: Int!
   # insurance rate applied
@@ -96,23 +98,27 @@ type Raffle @entity{
   # status of the raffle
   status: RaffleStatus!
   # amount of tickets sold
-  currentSupply: Int!
+  currentTicketSold: Int!
+  # true if ticket sold is under the minTicketThreshold
+  isTicketsSoldUnderMinThreshold: Boolean!
   # winner of the raffle
   winner: User
   # winning numbers
-  winningNumbers: Int!
+  winningTicketNumber: Int!
   # check if the winner has claimed his prize
   winnerClaimed: Boolean!
 
+  # check if the creator has claimed his prize or refund
   creatorClaimed: Boolean!
-  creatorAmountReceived: BigInt!
-  treasuryAmountReceived: BigInt!
-  royaltiesAmountReceived: BigInt!
+  creatorAmountEarned: BigInt!
+  treasuryAmountEarned: BigInt!
+  royaltiesAmountSent: BigInt!
 
-  amountOfParticipantsRefunded: Int!
+  participantsAmountRefunded: Int!
 
   participants: [Participant!]! @derivedFrom(field: "raffle")
 
+  chainlinkVRFTxHash: Bytes
 }
 
 type Participant @entity{
@@ -132,6 +138,28 @@ type Participant @entity{
 type User @entity{
   # user address
   id: ID!
+  
+  # first action timestamp
+  joinAt: BigInt!
+
+  #total amount of raffles created
+  overallCreatedRaffle: Int
+  #total raffles created correctly finished
+  overallCreatedRaffleEnded: Int
+  #total raffle cancelled
+  overallCreatedRaffleCancelled: Int
+  #total amount of raffles created refunded
+  overallCreatedRaffleRefunded: Int
+  #total amount of raffles participated
+  overallRaffleParticipation: Int
+  #total amount of raffles participated refunded
+  overallParticipationsRefunded: Int
+  #total amount of tickets purchased
+  overallTicketsPurchased: Int
+  #total amount of tickets sold
+  overallTicketsSold: Int
+  #total amount of raffles won
+  overallRafflesWon: Int
 
   # allow indexing by raffleCreated
   rafflesCreated: [Raffle!]! @derivedFrom(field: "creator")

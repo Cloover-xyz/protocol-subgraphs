@@ -1,0 +1,7 @@
+{
+    "network": "matic",
+    "TokenWhitelist": "0x6fb74aa90b0881e66b1bd29311221373ce3a110c",
+    "NFTWhitelist": "0x0e7a41F07519E91b8C500026F2151E3284F98482",
+    "RaffleFactory": "0x1448a9f83a24a928c73a90779377e116baea2809",
+    "StartBlock": 45032353
+}

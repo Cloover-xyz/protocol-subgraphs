@@ -5,9 +5,13 @@
     "main": "index.js",
     "scripts": {
         "prepare:subgraph": "mustache ./config/${NETWORK}.json ./templates/subgraph.template.yaml > subgraph.yaml",
-        "subgraph:codegen": "cross-env && pnpm prepare:subgraph && graph codegen",
-        "subgraph:build": "cross-env && pnpm prepare:subgraph && graph codegen && graph build",
-        "test": "graph test",
+        "subgraph:codegen": "cross-env pnpm prepare:subgraph && graph codegen",
+        "subgraph:build": "cross-env pnpm prepare:subgraph && graph codegen && graph build",
+        "subgraph:deploy:hosted": "graph auth --product hosted-service $ACCESS_TOKEN_HOSTED && graph deploy --product hosted-service ${SLUG}",
+        "deploy:hosted:mainnet-sepolia": "NETWORK=sepolia env-cmd pnpm prepare:subgraph && SLUG=cloover-v1-sepolia env-cmd pnpm subgraph:deploy:studio",
+        "subgraph:deploy:studio": "graph auth --studio $ACCESS_TOKEN_STUDIO && graph deploy --studio ${SLUG}",
+        "deploy:hosted:polygon": "NETWORK=polygon env-cmd pnpm prepare:subgraph && SLUG=cloover-xyz/cloover-v1-polygon env-cmd pnpm subgraph:deploy:hosted",
+        "deploy:hosted:mainnet": "NETWORK=mainnet env-cmd pnpm prepare:subgraph && SLUG=cloover-xyz/cloover-v1-mainnet env-cmd pnpm subgraph:deploy:hosted",
         "postinstall": "husky install"
     },
     "keywords": [],
@@ -16,12 +20,12 @@
     "dependencies": {
         "@commitlint/cli": "^17.6.3",
         "@commitlint/config-conventional": "^17.6.3",
-        "@graphprotocol/graph-cli": "^0.49.0",
-        "@graphprotocol/graph-ts": "^0.30.0",
+        "@graphprotocol/graph-cli": "^0.51.2",
+        "@graphprotocol/graph-ts": "^0.31.0",
         "@types/node": "^20.1.4",
         "@typescript-eslint/eslint-plugin": "^5.59.5",
         "@typescript-eslint/parser": "^5.59.5",
-        "assemblyscript": "^0.19.20",
+        "assemblyscript": "^0.19.10",
         "env-cmd": "^10.1.0",
         "eslint": "^8.40.0",
         "eslint-config-prettier": "^8.8.0",
@@ -33,8 +37,7 @@
         "typescript": "^5.0.4"
     },
     "devDependencies": {
-        "cross-env": "^7.0.3",
-        "matchstick-as": "^0.5.2"
+        "cross-env": "^7.0.3"
     },
     "lint-staged": {
         "*.json": "pnpm prettier",

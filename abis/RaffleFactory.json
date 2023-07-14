@@ -1,171 +1,479 @@
 [
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newInsuranceRate",
-        "type": "uint256"
-      }
-    ],
-    "name": "InsuranceRateUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newMaxTicketSalesDuration",
-        "type": "uint256"
-      }
-    ],
-    "name": "MaxTicketSalesDurationUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newMaxTicketSupply",
-        "type": "uint256"
-      }
-    ],
-    "name": "MaxTotalSupplyAllowedUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newMinTicketSalesDuration",
-        "type": "uint256"
-      }
-    ],
-    "name": "MinTicketSalesDurationUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "raffleContract",
-        "type": "address"
-      },
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "creator",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "implementationManager",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "purchaseCurrency",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "nftContract",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "nftId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ticketPrice",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint64",
-            "name": "ticketSalesDuration",
-            "type": "uint64"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maxTotalSupply",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maxTicketAllowedToPurchase",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "ticketSalesInsurance",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "protocolFeeRate",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "insuranceRate",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "royaltiesRate",
-            "type": "uint16"
-          },
-          {
-            "internalType": "bool",
-            "name": "isEthRaffle",
-            "type": "bool"
-          }
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "implementationManager",
+                "type": "address"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketSupplyAllowed",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "protocolFeeRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "insuranceRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "minTicketSalesDuration",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "maxTicketSalesDuration",
+                        "type": "uint64"
+                    }
+                ],
+                "internalType": "struct ClooverRaffleTypes.FactoryConfigParams",
+                "name": "data",
+                "type": "tuple"
+            }
         ],
-        "indexed": false,
-        "internalType": "struct ClooverRaffleTypes.InitializeRaffleParams",
-        "name": "raffleParams",
-        "type": "tuple"
-      }
-    ],
-    "name": "NewRaffle",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newProtocolFeeRate",
-        "type": "uint256"
-      }
-    ],
-    "name": "ProtocolFeeRateUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "raffleContract",
-        "type": "address"
-      }
-    ],
-    "name": "RemovedFromRegister",
-    "type": "event"
-  }
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "BELOW_MIN_VALUE_ALLOWED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "CANT_BE_ZERO",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "COLLECTION_NOT_WHITELISTED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "EXCEED_MAX_PERCENTAGE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "EXCEED_MAX_VALUE_ALLOWED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "INSURANCE_AMOUNT",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOT_ETH_RAFFLE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOT_MAINTAINER",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NOT_WHITELISTED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "OUT_OF_RANGE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "ROYALTIES_NOT_POSSIBLE",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TOKEN_NOT_WHITELISTED",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "WRONG_AMOUNT",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "WRONG_DURATION_LIMITS",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "Paused",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "Unpaused",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "purchaseCurrency",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "nftContract",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "nftId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "ticketPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "endTicketSales",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketSupply",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketPerWallet",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "minTicketThreshold",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "royaltiesRate",
+                        "type": "uint16"
+                    }
+                ],
+                "internalType": "struct ClooverRaffleTypes.CreateRaffleParams",
+                "name": "params",
+                "type": "tuple"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "deadline",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "v",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "r",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "s",
+                        "type": "bytes32"
+                    }
+                ],
+                "internalType": "struct ClooverRaffleTypes.PermitDataParams",
+                "name": "permitData",
+                "type": "tuple"
+            }
+        ],
+        "name": "createRaffle",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "newRaffle",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getRegisteredRaffle",
+        "outputs": [
+            {
+                "internalType": "address[]",
+                "name": "",
+                "type": "address[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "implementationManager",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "insuranceRate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "raffle",
+                "type": "address"
+            }
+        ],
+        "name": "isRegistered",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "maxTicketSalesDuration",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "maxTicketSupplyAllowed",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "minTicketSalesDuration",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "pause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "paused",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "protocolFeeRate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "removeRaffleFromRegister",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "newinsuranceRate",
+                "type": "uint16"
+            }
+        ],
+        "name": "setInsuranceRate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint64",
+                "name": "newMaxTicketSalesDuration",
+                "type": "uint64"
+            }
+        ],
+        "name": "setMaxTicketSalesDuration",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "newMaxTotalSupplyAllowed",
+                "type": "uint16"
+            }
+        ],
+        "name": "setMaxTicketSupplyAllowed",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint64",
+                "name": "newMinTicketSalesDuration",
+                "type": "uint64"
+            }
+        ],
+        "name": "setMinTicketSalesDuration",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint16",
+                "name": "newFeeRate",
+                "type": "uint16"
+            }
+        ],
+        "name": "setProtocolFeeRate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "ticketSalesDurationLimits",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "minDuration",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "maxDuration",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "unpause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "version",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    }
 ]

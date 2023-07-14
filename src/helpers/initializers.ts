@@ -1,4 +1,4 @@
-import { Address, log } from '@graphprotocol/graph-ts';
+import { Address, BigInt, log } from '@graphprotocol/graph-ts';
 
 import {
     NFT,
@@ -24,7 +24,7 @@ import {
     getUserId,
 } from '../utils/id-generation';
 import { zeroBI } from '../utils/converters';
-import { NewRaffleRaffleParamsStruct } from '../../generated/RaffleFactory/RaffleFactory';
+import { NewRaffleRaffleParamsStruct } from '../../generated/RaffleFactory/RaffleFactoryEvents';
 
 export function getOrInitTokenWhitelist(tokenWhitelistAddress: Address): TokenWhitelist {
     let tokenWhitelistId = getTokenWhitelistId(tokenWhitelistAddress);
@@ -55,8 +55,22 @@ export function getOrInitToken(tokenAddress: Address): Token {
     if (!token) {
         token = new Token(tokenId);
         let ERC20Contract = IERC20Detailed.bind(tokenAddress);
-        token.symbol = ERC20Contract.symbol();
-        token.decimals = ERC20Contract.decimals();
+        const symbol = ERC20Contract.try_symbol();
+        if (!symbol.reverted) {
+            token.symbol = symbol.value;
+        } else {
+            log.error('Error in getting token symbol from contract: {}', [
+                tokenAddress.toHexString(),
+            ]);
+        }
+        const decimals = ERC20Contract.try_decimals();
+        if (!decimals.reverted) {
+            token.decimals = decimals.value;
+        } else {
+            log.error('Error in getting token decimals from contract: {}', [
+                tokenAddress.toHexString(),
+            ]);
+        }
         token.save();
     }
     return token;
@@ -67,7 +81,7 @@ export function getOrInitNFT(nftCollectionAddress: Address): NFT {
     let nft = NFT.load(nftId);
     if (!nft) {
         nft = new NFT(nftId);
-        nft.creator = '';
+        nft.royaltiesRecipent = '';
         nft.save();
     }
     return nft;
@@ -87,7 +101,8 @@ export function getOrInitRaffleFactory(factoryAddress: Address): RaffleFactory {
 export function initRaffle(
     factoryAddress: Address,
     raffleAddress: Address,
-    params: NewRaffleRaffleParamsStruct
+    params: NewRaffleRaffleParamsStruct,
+    blockTimestamp: BigInt
 ): void {
     let raffleId = getRaffleId(raffleAddress);
     let raffle = Raffle.load(raffleId);
@@ -96,41 +111,46 @@ export function initRaffle(
         throw new Error('raffle ' + raffleAddress.toHexString() + ' already exist');
     }
     raffle = new Raffle(raffleId);
-    raffle.status = 'DEFAULT';
+    raffle.status = 'OPEN';
+    raffle.createAt = blockTimestamp;
     raffle.implementationManager = params.implementationManager.toHexString();
     raffle.raffleFactory = factoryAddress.toHexString();
     raffle.nftId = params.nftId;
-    raffle.maxTotalSupply = params.maxTotalSupply;
-    raffle.ticketSalesDuration = params.ticketSalesDuration;
-    raffle.maxTicketAllowedToPurchase = params.maxTicketAllowedToPurchase;
-    raffle.ticketSalesInsurance = params.ticketSalesInsurance;
+    raffle.maxTicketSupply = params.maxTicketSupply;
+    raffle.endTicketSales = params.endTicketSales;
+    raffle.salesDuration = params.endTicketSales.minus(blockTimestamp);
+    raffle.maxTicketPerWallet = params.maxTicketPerWallet;
+    raffle.minTicketThreshold = params.minTicketThreshold;
     raffle.ticketPrice = params.ticketPrice;
     raffle.protocolFeeRate = params.protocolFeeRate;
     raffle.insuranceRate = params.insuranceRate;
     raffle.royaltiesRate = params.royaltiesRate;
     raffle.isETH = params.isEthRaffle;
 
-    raffle.currentSupply = 0;
-    raffle.winningNumbers = 0;
+    raffle.isTicketsSoldUnderMinThreshold = params.minTicketThreshold > 0 ? true : false;
+    raffle.currentTicketSold = 0;
+    raffle.winningTicketNumber = 0;
     raffle.winnerClaimed = false;
     raffle.creatorClaimed = false;
-    raffle.creatorAmountReceived = zeroBI();
-    raffle.treasuryAmountReceived = zeroBI();
-    raffle.royaltiesAmountReceived = zeroBI();
-    raffle.amountOfParticipantsRefunded = 0;
+    raffle.creatorAmountEarned = zeroBI();
+    raffle.treasuryAmountEarned = zeroBI();
+    raffle.royaltiesAmountSent = zeroBI();
+    raffle.participantsAmountRefunded = 0;
 
-    let raffleContract = RaffleContract.bind(raffleAddress);
-    raffle.endTicketSales = raffleContract.endTicketSales();
+    let user = getOrInitUser(params.creator, blockTimestamp);
 
-    let user = getOrInitUser(params.creator);
+    user.overallCreatedRaffle = user.overallCreatedRaffle + 1;
     raffle.creator = user.id;
 
-    let token = getOrInitToken(params.purchaseCurrency);
-    raffle.token = token.id;
+    if (!params.isEthRaffle) {
+        let token = getOrInitToken(params.purchaseCurrency);
+        raffle.token = token.id;
+    }
 
     let nft = getOrInitNFT(params.nftContract);
     raffle.nft = nft.id;
 
+    user.save();
     raffle.save();
 }
 
@@ -144,21 +164,27 @@ export function getRaffle(raffleAddress: Address): Raffle {
     return raffle;
 }
 
-export function getOrInitUser(userAddress: Address): User {
+export function getOrInitUser(userAddress: Address, blockTimestamp: BigInt): User {
     let userId = getUserId(userAddress);
     let user = User.load(userId);
     if (!user) {
         user = new User(userId);
+        user.joinAt = blockTimestamp;
         user.save();
     }
     return user;
 }
 
-export function getOrInitParticipant(raffleAddress: Address, userAddress: Address): Participant {
+export function getOrInitParticipant(
+    raffleAddress: Address,
+    userAddress: Address,
+    blockTimestamp: BigInt
+): Participant {
     let participantId = getParticipantId(raffleAddress, userAddress);
     let participant = Participant.load(participantId);
     if (!participant) {
-        const user = getOrInitUser(userAddress);
+        const user = getOrInitUser(userAddress, blockTimestamp);
+        user.overallRaffleParticipation = user.overallRaffleParticipation + 1;
         participant = new Participant(participantId);
         participant.numberOfTicketsPurchased = 0;
         participant.numbers = [];
@@ -167,6 +193,7 @@ export function getOrInitParticipant(raffleAddress: Address, userAddress: Addres
         participant.claimedRefund = false;
         participant.refundAmount = zeroBI();
         participant.save();
+        user.save();
     }
     return participant;
 }

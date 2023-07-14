@@ -1,0 +1,171 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newInsuranceRate",
+                "type": "uint256"
+            }
+        ],
+        "name": "InsuranceRateUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newMaxTicketSalesDuration",
+                "type": "uint256"
+            }
+        ],
+        "name": "MaxTicketSalesDurationUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newMaxTicketSupply",
+                "type": "uint256"
+            }
+        ],
+        "name": "MaxTotalSupplyAllowedUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newMinTicketSalesDuration",
+                "type": "uint256"
+            }
+        ],
+        "name": "MinTicketSalesDurationUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "raffleContract",
+                "type": "address"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "creator",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "implementationManager",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "purchaseCurrency",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "nftContract",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "nftId",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "ticketPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "endTicketSales",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketSupply",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "maxTicketPerWallet",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "minTicketThreshold",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "protocolFeeRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "insuranceRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "uint16",
+                        "name": "royaltiesRate",
+                        "type": "uint16"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "isEthRaffle",
+                        "type": "bool"
+                    }
+                ],
+                "indexed": false,
+                "internalType": "struct ClooverRaffleTypes.InitializeRaffleParams",
+                "name": "raffleParams",
+                "type": "tuple"
+            }
+        ],
+        "name": "NewRaffle",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newProtocolFeeRate",
+                "type": "uint256"
+            }
+        ],
+        "name": "ProtocolFeeRateUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "raffleContract",
+                "type": "address"
+            }
+        ],
+        "name": "RemovedFromRegister",
+        "type": "event"
+    }
+]
